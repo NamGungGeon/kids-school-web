@@ -16,5 +16,6 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
 }
-.grid.paddings > * {
+.padding {
+  padding: 16px;
 }

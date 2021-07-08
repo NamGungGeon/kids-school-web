@@ -28,7 +28,7 @@ const Navigation = () => {
           <Link to={"/"}>유치원 찾기</Link>
         </li>
         <li>
-          <Link to={"/compares"}>유치원 비교</Link>
+          <Link to={"/compare"}>유치원 비교</Link>
         </li>
       </ul>
     </div>
