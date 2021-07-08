@@ -1,25 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import React, { useEffect, useState } from "react";
+import Routers from "./pages";
+import { createTheme } from "@material-ui/core/styles";
+import { ThemeProvider } from "@material-ui/styles";
+import { purple } from "@material-ui/core/colors";
+import Splash from "./containers/Splash/Splash";
 
+const theme = createTheme({
+  palette: {
+    primary: {
+      // Purple and green play nicely together.
+      main: "#81c784"
+    }
+  }
+});
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+  }, []);
+  return <Routers />;
+  return <div>{loading ? <Splash /> : <Routers />}</div>;
 }
 
 export default App;
