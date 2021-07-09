@@ -28,3 +28,9 @@ export const getSchoolsByName = kinderName => {
     }
   });
 };
+export const getSchoolInfo = kinderCode => {
+  return axios.request({
+    url: `/schools/${kinderCode}`,
+    method: "GET"
+  });
+};

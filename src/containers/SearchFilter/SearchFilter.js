@@ -30,7 +30,7 @@ const useStyles = makeStyles(theme => ({
     marginRight: theme.spacing(1)
   },
   chip: {
-    margin: theme.spacing(1),
+    margin: theme.spacing(0.5),
     marginLeft: 0
   }
 }));
@@ -40,8 +40,8 @@ const allTimes = Array(24)
 
 const SearchFilter = ({ onUpdate = options => {} }) => {
   const [isAddressLoaded, getSidoNames, getSggNames] = useAddress();
-  const [sidoName, setSidoName] = useState();
-  const [sggName, setSggName] = useState();
+  const [sidoName, setSidoName] = useState("서울특별시");
+  const [sggName, setSggName] = useState("송파구");
   const [kinderType, setKinderType] = useState();
   const [kinderName, setKinderName] = useState();
   const [additionals, setAdditionals] = useState({
@@ -82,6 +82,7 @@ const SearchFilter = ({ onUpdate = options => {} }) => {
         <FormControl className={classes.formControl}>
           <InputLabel>시/도</InputLabel>
           <Select
+            value={sidoName}
             onChange={e => {
               setSidoName(e.target.value);
             }}
@@ -94,6 +95,7 @@ const SearchFilter = ({ onUpdate = options => {} }) => {
         <FormControl className={classes.formControl}>
           <InputLabel>시/군/구</InputLabel>
           <Select
+            value={sggName}
             onChange={e => {
               setSggName(e.target.value);
             }}
@@ -117,7 +119,7 @@ const SearchFilter = ({ onUpdate = options => {} }) => {
             }}
           >
             {allTimes.map(time => {
-              return <MenuItem value={time}>{time}시</MenuItem>;
+              return <MenuItem value={time}>{time}시 이전</MenuItem>;
             })}
           </Select>
         </FormControl>
@@ -132,7 +134,7 @@ const SearchFilter = ({ onUpdate = options => {} }) => {
             }}
           >
             {allTimes.map(time => {
-              return <MenuItem value={time}>{time}시</MenuItem>;
+              return <MenuItem value={time}>{time}시 이후</MenuItem>;
             })}
           </Select>
         </FormControl>

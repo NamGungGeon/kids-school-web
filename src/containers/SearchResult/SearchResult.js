@@ -1,40 +1,18 @@
 import React, { useEffect, useState } from "react";
-import InputBase from "@material-ui/core/InputBase";
-import IconButton from "@material-ui/core/IconButton";
-import SearchIcon from "@material-ui/icons/Search";
-import Divider from "@material-ui/core/Divider";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import SendIcon from "@material-ui/icons/Send";
 import ListItemText from "@material-ui/core/ListItemText";
 import { makeStyles } from "@material-ui/core/styles";
-import withModal from "../../hoc/withModal";
 import { useModal } from "../../hook/useModal";
 import SchoolInfo from "../SchoolInfo/SchoolInfo";
-import { getSchoolsByAddress } from "../../http";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Typography from "@material-ui/core/Typography";
-
-const useStyles = makeStyles(theme => ({
-  root: {
-    padding: "2px 4px",
-    display: "flex",
-    alignItems: "center",
-    width: "100%"
-  },
-  input: {
-    marginLeft: theme.spacing(1),
-    flex: 1
-  },
-  iconButton: {
-    padding: 10
-  },
-  divider: {
-    height: 28,
-    margin: 4
-  }
-}));
+import ChildCareIcon from "@material-ui/icons/ChildCare";
+import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
+import IconButton from "@material-ui/core/IconButton";
+import InfoIcon from "@material-ui/icons/Info";
 
 const SearchResult = ({ schools }) => {
   const [modal, setModal] = useModal();
@@ -62,19 +40,23 @@ const SearchResult = ({ schools }) => {
       >
         {schools?.map(school => {
           return (
-            <ListItem
-              button
-              onClick={() => {
-                setModal(<SchoolInfo kinderCode={school.kinderCode} />);
-              }}
-            >
+            <ListItem button>
               <ListItemIcon>
-                <SendIcon />
+                <ChildCareIcon />
               </ListItemIcon>
               <ListItemText
                 primary={school.kinderName}
                 secondary={school.address}
               />
+              <ListItemSecondaryAction>
+                <IconButton
+                  onClick={() => {
+                    setModal(<SchoolInfo kinderCode={school.kinderCode} />);
+                  }}
+                >
+                  <InfoIcon />
+                </IconButton>
+              </ListItemSecondaryAction>
             </ListItem>
           );
         })}

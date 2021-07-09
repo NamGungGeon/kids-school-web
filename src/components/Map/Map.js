@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-const Map = ({ camera = [37.506502, 127.053617], markers = [] }) => {
+const Map = ({ camera = [37.506502, 127.053617], markers = [], className }) => {
   const [map, setMap] = useState();
   const [lat, lng] = camera;
   const [ref, setRef] = useState();
@@ -40,6 +40,7 @@ const Map = ({ camera = [37.506502, 127.053617], markers = [] }) => {
   return (
     <div
       id="map"
+      className={className}
       style={{
         width: "100%",
         height: "500px"
