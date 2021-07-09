@@ -7,9 +7,12 @@ import Typography from "@material-ui/core/Typography";
 import AccordionDetails from "@material-ui/core/AccordionDetails";
 import SearchFilter from "../containers/SearchFilter/SearchFilter";
 import SearchResult from "../containers/SearchResult/SearchResult";
+import { getSchoolsByAddress, getSchoolsByName } from "../http";
 
 const Home = () => {
   const [map, setMap] = useState();
+  const [schools, setSchools] = useState([]);
+  const [filter, setFilter] = useState({});
   const [expanded, setExpanded] = useState(true);
   useEffect(() => {
     if (map) {
@@ -20,7 +23,23 @@ const Home = () => {
       marker.setMap(map);
     }
   }, [map]);
-
+  useEffect(() => {
+    const { sidoName, sggName } = filter;
+    console.log("filter updated", filter);
+    if (sidoName && sggName) {
+      getSchoolsByAddress(sidoName, sggName, filter)
+        .then(res => {
+          setSchools(res.data.schools);
+        })
+        .catch(console.error);
+    } else if (filter.kinderName?.length >= 3) {
+      getSchoolsByName(filter.kinderName)
+        .then(res => {
+          setSchools(res.data.schools);
+        })
+        .catch(console.error);
+    }
+  }, [filter]);
   return (
     <div className={"content"}>
       <h1>유치원 찾기</h1>
@@ -32,10 +51,10 @@ const Home = () => {
         }}
       >
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          <Typography>상세설정</Typography>
+          <Typography>검색 옵션 설정</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <SearchFilter />
+          <SearchFilter onUpdate={filter => setFilter(filter)} />
         </AccordionDetails>
       </Accordion>
       <br />
@@ -79,7 +98,7 @@ const Home = () => {
           }}
         />
         <div>
-          <SearchResult />
+          <SearchResult schools={schools} />
         </div>
       </Paper>
     </div>

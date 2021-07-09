@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import InputBase from "@material-ui/core/InputBase";
 import IconButton from "@material-ui/core/IconButton";
 import SearchIcon from "@material-ui/icons/Search";
@@ -12,6 +12,9 @@ import { makeStyles } from "@material-ui/core/styles";
 import withModal from "../../hoc/withModal";
 import { useModal } from "../../hook/useModal";
 import SchoolInfo from "../SchoolInfo/SchoolInfo";
+import { getSchoolsByAddress } from "../../http";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import Typography from "@material-ui/core/Typography";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -33,49 +36,48 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const SearchResult = () => {
-  const classes = useStyles();
+const SearchResult = ({ schools }) => {
   const [modal, setModal] = useModal();
+
+  if (!schools)
+    return (
+      <div className={"flex center"}>
+        <CircularProgress />
+      </div>
+    );
+  if (schools && !schools.length)
+    return (
+      <div className={"flex center"} style={{ height: "100%" }}>
+        <Typography>검색 결과가 없습니다</Typography>
+      </div>
+    );
+
   return (
     <div>
-      <div component="form" className={classes.root}>
-        <InputBase
-          className={classes.input}
-          placeholder="검색할 유치원의 이름을 입력하세요"
-          inputProps={{ "aria-label": "search google maps" }}
-        />
-        <IconButton
-          type="submit"
-          className={classes.iconButton}
-          aria-label="search"
-        >
-          <SearchIcon />
-        </IconButton>
-      </div>
-      <Divider />
       <List
         style={{
-          maxHeight: "450px",
+          maxHeight: "500px",
           overflow: "auto"
         }}
       >
-        {Array(8)
-          .fill(0)
-          .map(() => {
-            return (
-              <ListItem
-                button
-                onClick={() => {
-                  setModal(<SchoolInfo kinderCode={"asd"} />);
-                }}
-              >
-                <ListItemIcon>
-                  <SendIcon />
-                </ListItemIcon>
-                <ListItemText primary="Sent mail" secondary={"hh"} />
-              </ListItem>
-            );
-          })}
+        {schools?.map(school => {
+          return (
+            <ListItem
+              button
+              onClick={() => {
+                setModal(<SchoolInfo kinderCode={school.kinderCode} />);
+              }}
+            >
+              <ListItemIcon>
+                <SendIcon />
+              </ListItemIcon>
+              <ListItemText
+                primary={school.kinderName}
+                secondary={school.address}
+              />
+            </ListItem>
+          );
+        })}
       </List>
     </div>
   );

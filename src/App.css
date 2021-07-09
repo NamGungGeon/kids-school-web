@@ -19,3 +19,10 @@
 .padding {
   padding: 16px;
 }
+.flex {
+  display: flex;
+}
+.flex.center {
+  justify-content: center;
+  align-items: center;
+}
