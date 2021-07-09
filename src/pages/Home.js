@@ -47,24 +47,34 @@ const Home = () => {
             height: "500px"
           }}
           ref={ref => {
-            if (!map) {
-              const script = document.createElement("script");
-              script.async = true;
-              script.src =
-                "https://dapi.kakao.com/v2/maps/sdk.js?appkey=062e58036018572a63b7d71f1405145a&autoload=false";
-              document.head.appendChild(script);
-
-              script.onload = () => {
-                window.kakao.maps.load(() => {
-                  let options = {
-                    center: new window.kakao.maps.LatLng(37.506502, 127.053617),
-                    level: 7
-                  };
-
-                  const map = new window.kakao.maps.Map(ref, options);
-                  setMap(map);
-                });
+            const run = () => {
+              let options = {
+                center: new window.kakao.maps.LatLng(37.506502, 127.053617),
+                level: 7
               };
+
+              const map = new window.kakao.maps.Map(ref, options);
+              setMap(map);
+            };
+            if (!map) {
+              try {
+                if (!window.kakao) {
+                  const script = document.createElement("script");
+                  script.crossOrigin = true;
+                  script.async = true;
+                  script.src =
+                    "https://dapi.kakao.com/v2/maps/sdk.js?appkey=062e58036018572a63b7d71f1405145a&autoload=false";
+                  document.head.appendChild(script);
+
+                  script.onload = () => {
+                    window.kakao.maps.load(run);
+                  };
+                } else {
+                  run();
+                }
+              } catch (e) {
+                console.error(e);
+              }
             }
           }}
         />
