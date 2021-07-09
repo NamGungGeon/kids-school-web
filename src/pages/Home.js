@@ -14,19 +14,52 @@ const Home = () => {
   const [schools, setSchools] = useState([]);
   const [filter, setFilter] = useState({});
   const [expanded, setExpanded] = useState(true);
+  const applyFilter = schools => {
+    const getOnlyTime = time => {
+      return parseInt(time.replace(/[^0-9]/gi, "").substring(0, 2));
+    };
+    let results = schools;
+    if (filter.openTime) {
+      results = results.filter(
+        school =>
+          school.openTime && filter.openTime >= getOnlyTime(school.openTime)
+      );
+    }
+    if (filter.closeTime) {
+      results = results.filter(
+        school =>
+          school.closeTime && filter.closeTime <= getOnlyTime(school.closeTime)
+      );
+    }
+    if (filter.kinderType) {
+      results = results.filter(school =>
+        school.kinderType?.includes(filter.kinderType)
+      );
+    }
+    if (filter.requireHandicap) {
+      results = results.filter(school => school.classCountHandicap);
+    }
+    if (filter.requireBus) {
+      results = results.filter(school => school.busCount);
+    }
+    if (filter.requireCCTV) {
+      results = results.filter(school => school.cctvCount);
+    }
+    return results;
+  };
   useEffect(() => {
     const { sidoName, sggName } = filter;
     console.log("filter updated", filter);
     if (sidoName && sggName) {
       getSchoolsByAddress(sidoName, sggName, filter)
         .then(res => {
-          setSchools(res.data.schools);
+          setSchools(applyFilter(res.data.schools));
         })
         .catch(console.error);
     } else if (filter.kinderName?.length >= 3) {
       getSchoolsByName(filter.kinderName)
         .then(res => {
-          setSchools(res.data.schools);
+          setSchools(applyFilter(res.data.schools));
         })
         .catch(console.error);
     }
@@ -42,19 +75,24 @@ const Home = () => {
         }}
       >
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          <Typography>검색 옵션 설정</Typography>
+          <Typography>
+            <b>검색 옵션 설정</b>
+          </Typography>
         </AccordionSummary>
         <AccordionDetails>
           <SearchFilter onUpdate={filter => setFilter(filter)} />
         </AccordionDetails>
       </Accordion>
       <br />
-      <Paper className={"grid paddings"}>
-        <Map />
-        <div>
-          <SearchResult schools={schools} />
-        </div>
-      </Paper>
+      {filter.kinderName?.length >= 3 ||
+        (filter.sidoName && filter.sggName && (
+          <Paper className={"grid paddings"}>
+            <Map />
+            <div>
+              <SearchResult schools={schools} />
+            </div>
+          </Paper>
+        ))}
     </div>
   );
 };
