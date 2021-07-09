@@ -5,6 +5,7 @@ import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import { makeStyles } from "@material-ui/core/styles";
 import Chip from "@material-ui/core/Chip";
+import TextField from "@material-ui/core/TextField";
 
 const useStyles = makeStyles(theme => ({
   wrapper: {
@@ -20,6 +21,10 @@ const useStyles = makeStyles(theme => ({
   formControl: {
     width: 120,
     marginRight: theme.spacing(1)
+  },
+  formControlLarge: {
+    width: 240,
+    marginRight: theme.spacing(1)
   }
 }));
 const times = Array(24)
@@ -30,6 +35,15 @@ const SearchFilter = (onUpdate = options => {}) => {
   const classes = useStyles();
   return (
     <div className={classes.wrapper}>
+      <div className={classes.row}>
+        <p className={classes.row_label}>이름</p>
+        <FormControl className={classes.formControlLarge}>
+          <TextField
+            id="standard-basic"
+            label="검색할 유치원/어린이집의 이름"
+          />
+        </FormControl>
+      </div>
       <div className={classes.row}>
         <p className={classes.row_label}>지역</p>
         <FormControl className={classes.formControl}>

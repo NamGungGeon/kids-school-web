@@ -9,6 +9,9 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import SendIcon from "@material-ui/icons/Send";
 import ListItemText from "@material-ui/core/ListItemText";
 import { makeStyles } from "@material-ui/core/styles";
+import withModal from "../../hoc/withModal";
+import { useModal } from "../../hook/useModal";
+import SchoolInfo from "../SchoolInfo/SchoolInfo";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -32,6 +35,7 @@ const useStyles = makeStyles(theme => ({
 
 const SearchResult = () => {
   const classes = useStyles();
+  const [modal, setModal] = useModal();
   return (
     <div>
       <div component="form" className={classes.root}>
@@ -59,7 +63,12 @@ const SearchResult = () => {
           .fill(0)
           .map(() => {
             return (
-              <ListItem button>
+              <ListItem
+                button
+                onClick={() => {
+                  setModal(<SchoolInfo kinderCode={"asd"} />);
+                }}
+              >
                 <ListItemIcon>
                   <SendIcon />
                 </ListItemIcon>
