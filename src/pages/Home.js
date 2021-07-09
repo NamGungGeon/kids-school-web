@@ -8,21 +8,12 @@ import AccordionDetails from "@material-ui/core/AccordionDetails";
 import SearchFilter from "../containers/SearchFilter/SearchFilter";
 import SearchResult from "../containers/SearchResult/SearchResult";
 import { getSchoolsByAddress, getSchoolsByName } from "../http";
+import Map from "../components/Map/Map";
 
 const Home = () => {
-  const [map, setMap] = useState();
   const [schools, setSchools] = useState([]);
   const [filter, setFilter] = useState({});
   const [expanded, setExpanded] = useState(true);
-  useEffect(() => {
-    if (map) {
-      var markerPosition = new window.kakao.maps.LatLng(37.506502, 127.053617);
-      var marker = new window.kakao.maps.Marker({
-        position: markerPosition
-      });
-      marker.setMap(map);
-    }
-  }, [map]);
   useEffect(() => {
     const { sidoName, sggName } = filter;
     console.log("filter updated", filter);
@@ -59,44 +50,7 @@ const Home = () => {
       </Accordion>
       <br />
       <Paper className={"grid paddings"}>
-        <div
-          id="map"
-          style={{
-            width: "100%",
-            height: "500px"
-          }}
-          ref={ref => {
-            const run = () => {
-              let options = {
-                center: new window.kakao.maps.LatLng(37.506502, 127.053617),
-                level: 7
-              };
-
-              const map = new window.kakao.maps.Map(ref, options);
-              setMap(map);
-            };
-            if (!map) {
-              try {
-                if (!window.kakao) {
-                  const script = document.createElement("script");
-                  script.crossOrigin = true;
-                  script.async = true;
-                  script.src =
-                    "https://dapi.kakao.com/v2/maps/sdk.js?appkey=062e58036018572a63b7d71f1405145a&autoload=false";
-                  document.head.appendChild(script);
-
-                  script.onload = () => {
-                    window.kakao.maps.load(run);
-                  };
-                } else {
-                  run();
-                }
-              } catch (e) {
-                console.error(e);
-              }
-            }
-          }}
-        />
+        <Map />
         <div>
           <SearchResult schools={schools} />
         </div>

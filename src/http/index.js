@@ -1,8 +1,9 @@
 import axios from "axios";
 axios.defaults.baseURL =
-  process.env.NODE_ENV === "DEBUG"
+  process.env.NODE_ENV === "development"
     ? "http://localhost:3003"
     : "https://kc-dev.cpsp.kr";
+console.log("env", process.env);
 
 export const getAddresses = () => {
   return axios.request({
