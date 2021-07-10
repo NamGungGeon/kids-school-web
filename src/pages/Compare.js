@@ -69,7 +69,7 @@ const Compare = () => {
           2개 이상의 유치원/어린이집이 비교함에 담겨 있어야 합니다
         </Typography>
       )}
-      {schools.length >= 2 && (
+      {comparables.length && (
         <Accordion
           expanded={expanded}
           onChange={(_, expanded) => {
