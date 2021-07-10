@@ -6,6 +6,7 @@ import { ThemeProvider } from "@material-ui/styles";
 import { purple } from "@material-ui/core/colors";
 import Splash from "./containers/Splash/Splash";
 import withModal from "./hoc/withModal";
+import withToast from "./hoc/withToast";
 
 const theme = createTheme({
   palette: {
@@ -26,4 +27,4 @@ function App() {
   return <div>{loading ? <Splash /> : <Routers />}</div>;
 }
 
-export default withModal(App);
+export default withModal(withToast(App));

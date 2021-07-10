@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { getSchoolInfo } from "../../http";
 import Loading from "../../components/Loading/Loading";
 import Map from "../../components/Map/Map";
-import { Typography } from "@material-ui/core";
+import { IconButton, Typography } from "@material-ui/core";
 import Chip from "@material-ui/core/Chip";
 import { makeStyles } from "@material-ui/core/styles";
 import TableContainer from "@material-ui/core/TableContainer";
@@ -13,16 +13,18 @@ import TableCell from "@material-ui/core/TableCell";
 import TableBody from "@material-ui/core/TableBody";
 import Paper from "@material-ui/core/Paper";
 import classNames from "classnames";
-import DirectionsBusIcon from "@material-ui/icons/DirectionsBus";
-import CameraAltIcon from "@material-ui/icons/CameraAlt";
-import FastfoodIcon from "@material-ui/icons/Fastfood";
-import SportsIcon from "@material-ui/icons/Sports";
 import StarIcon from "@material-ui/icons/Star";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import Alert from "@material-ui/lab/Alert";
-import AccessTimeIcon from "@material-ui/icons/AccessTime";
+import { useCompares } from "../../hook/useCompares";
+import Tooltip from "@material-ui/core/Tooltip";
+import { useToasts } from "../../hook/useToast";
+import SchoolSpecOverview from "../SchoolSpecOverview/SchoolSpecOverview";
 
 const useStyles = makeStyles(theme => ({
+  header: {
+    justifyContent: "space-between"
+  },
   chip: {
     margin: theme.spacing(0.5),
     marginLeft: 0
@@ -37,6 +39,11 @@ const useStyles = makeStyles(theme => ({
 const SchoolInfo = ({ kinderCode, school = null }) => {
   const classes = useStyles();
   const [info, setInfo] = useState(school);
+  const [_, addToast] = useToasts();
+  const [compares, addCompare, removeCompare] = useCompares();
+  const isInCompares = () => {
+    return compares.indexOf(info?.kinderCode) !== -1;
+  };
   useEffect(() => {
     if (!info) {
       getSchoolInfo(kinderCode)
@@ -96,7 +103,26 @@ const SchoolInfo = ({ kinderCode, school = null }) => {
   // url: "https://www.서울솔방울유치원.kr:497/home/"
   return (
     <div>
-      <h2>{info.kinderName}</h2>
+      <div className={classNames("flex center", classes.header)}>
+        <h2>{info.kinderName}</h2>
+        <div>
+          <Tooltip title={"비교함에서 추가/제거"}>
+            <IconButton
+              onClick={() => {
+                if (isInCompares()) {
+                  removeCompare(info.kinderCode);
+                  addToast("비교함에서 제거되었습니다");
+                } else {
+                  addCompare(info.kinderCode);
+                  addToast("비교함에 추가되었습니다");
+                }
+              }}
+            >
+              <StarIcon color={isInCompares() ? "secondary" : "basic"} />
+            </IconButton>
+          </Tooltip>
+        </div>
+      </div>
       <Alert severity="warning">
         해당 정보는 정보공시일 기준으로 제공되며, 현재와는 다른 내용이 있을 수
         있습니다
@@ -134,56 +160,7 @@ const SchoolInfo = ({ kinderCode, school = null }) => {
         <div>
           <Paper className={classNames("padding", classes.paper)}>
             <h3 className={classes.title}>편의시설</h3>
-            <div>
-              <Chip
-                icon={<DirectionsBusIcon />}
-                color={info.busCount ? "primary" : "basic"}
-                size={"small"}
-                className={classes.chip}
-                label={`스쿨버스 ${
-                  info.busCount ? `${info.busCount}대 운영` : "미운영"
-                }`}
-              />
-              <Chip
-                icon={<CameraAltIcon />}
-                color={info.cctvCount ? "primary" : "basic"}
-                size={"small"}
-                className={classes.chip}
-                label={`CCTV: ${
-                  info.cctvCount ? `${info.cctvCount}대 운영` : "미운영"
-                }`}
-              />
-              {info.openTime && info.closeTime && (
-                <Chip
-                  icon={<AccessTimeIcon />}
-                  color={"primary"}
-                  size={"small"}
-                  className={classes.chip}
-                  label={`운영시간: ${info.openTime}~${info.closeTime}`}
-                />
-              )}
-              <Chip
-                icon={<FastfoodIcon />}
-                color={"primary"}
-                size={"small"}
-                className={classes.chip}
-                label={`급식: ${info.foodType}`}
-              />
-              <Chip
-                icon={<SportsIcon />}
-                color={info.groundSize ? "primary" : "basic"}
-                size={"small"}
-                className={classes.chip}
-                label={`운동장 ${info.groundSize ? `있음` : "없음"}`}
-              />
-              <Chip
-                icon={<StarIcon />}
-                color={info.classCountHandicap ? "primary" : "basic"}
-                size={"small"}
-                className={classes.chip}
-                label={`특수학급 ${info.classCountHandicap ? `있음` : "없음"}`}
-              />
-            </div>
+            <SchoolSpecOverview school={info} />
           </Paper>
           <Paper className={classNames("padding", classes.paper)}>
             <h3 className={classes.title}>보험가입</h3>
