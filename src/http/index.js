@@ -34,3 +34,13 @@ export const getSchoolInfo = kinderCode => {
     method: "GET"
   });
 };
+
+export const getSchoolsByCodes = codes => {
+  return axios.request({
+    url: `/schools/codes`,
+    method: "GET",
+    params: {
+      codes: codes.join(",")
+    }
+  });
+};
