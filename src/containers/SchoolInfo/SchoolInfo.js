@@ -132,7 +132,7 @@ const SchoolInfo = ({ kinderCode, school = null }) => {
         <div>
           <Paper className={classNames("padding", classes.paper)}>
             <h3 className={classes.title}>지도</h3>
-            <Map />
+            <Map markers={[info]} highlight={info} />
           </Paper>
           <Paper className={classNames("padding", classes.paper)}>
             <h3 className={classes.title}>주소</h3>

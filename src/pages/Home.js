@@ -14,6 +14,7 @@ const Home = () => {
   const [schools, setSchools] = useState([]);
   const [filter, setFilter] = useState({});
   const [expanded, setExpanded] = useState(true);
+  const [selectedSchool, setSelectedSchool] = useState();
   const applyFilter = schools => {
     const getOnlyTime = time => {
       return parseInt(time.replace(/[^0-9]/gi, "").substring(0, 2));
@@ -49,6 +50,7 @@ const Home = () => {
   };
   useEffect(() => {
     const { sidoName, sggName } = filter;
+    setSchools([]);
     console.log("filter updated", filter);
     if (sidoName && sggName) {
       getSchoolsByAddress(sidoName, sggName, filter)
@@ -64,6 +66,10 @@ const Home = () => {
         .catch(console.error);
     }
   }, [filter]);
+  useEffect(() => {
+    console.log("schools", schools);
+    setSelectedSchool(null);
+  }, [schools]);
   return (
     <div className={"content"}>
       <h1>유치원 찾기</h1>
@@ -87,9 +93,14 @@ const Home = () => {
       {filter.kinderName?.length >= 3 ||
         (filter.sidoName && filter.sggName && (
           <Paper className={"grid paddings"}>
-            <Map />
             <div>
-              <SearchResult schools={schools} />
+              <Map markers={schools} highlight={selectedSchool} />
+            </div>
+            <div>
+              <SearchResult
+                schools={schools}
+                handleSelect={setSelectedSchool}
+              />
             </div>
           </Paper>
         ))}

@@ -16,7 +16,7 @@ import StarIcon from "@material-ui/icons/Star";
 import { useToasts } from "../../hook/useToast";
 import Tooltip from "@material-ui/core/Tooltip";
 
-const SearchResult = ({ schools }) => {
+const SearchResult = ({ schools, handleSelect }) => {
   const [modal, setModal] = useModal();
   const [compares, addCompare, removeCompare] = useCompares();
   const [_, addToast] = useToasts();
@@ -42,7 +42,7 @@ const SearchResult = ({ schools }) => {
       >
         {schools?.map(school => {
           return (
-            <ListItem button>
+            <ListItem button onClick={() => handleSelect(school)}>
               <ListItemIcon>
                 <ChildCareIcon />
               </ListItemIcon>
