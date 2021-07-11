@@ -89,15 +89,17 @@ const SearchResult = ({ schools, handleSelect }) => {
                   </IconButton>
                 </Tooltip>
 
-                <Tooltip title={"자세히 보기"}>
-                  <IconButton
-                    onClick={() => {
-                      setModal(<SchoolInfo kinderCode={school.kinderCode} />);
-                    }}
-                  >
-                    <InfoIcon />
-                  </IconButton>
-                </Tooltip>
+                {type !== "phone" && (
+                  <Tooltip title={"자세히 보기"}>
+                    <IconButton
+                      onClick={() => {
+                        setModal(<SchoolInfo kinderCode={school.kinderCode} />);
+                      }}
+                    >
+                      <InfoIcon />
+                    </IconButton>
+                  </Tooltip>
+                )}
               </ListItemSecondaryAction>
             </ListItem>
           );
