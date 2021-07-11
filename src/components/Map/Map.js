@@ -69,7 +69,6 @@ const Map = ({
       );
       if (!highlight) map.setBounds(bounds);
     }
-    console.log(process.env);
   }, [markers, map, highlight]);
   useEffect(() => {
     if (highlight && map) {

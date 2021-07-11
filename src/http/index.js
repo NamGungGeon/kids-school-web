@@ -3,7 +3,6 @@ axios.defaults.baseURL =
   process.env.NODE_ENV === "development"
     ? "http://localhost:3003"
     : "https://kc-dev.cpsp.kr";
-console.log("env", process.env);
 
 export const getAddresses = () => {
   return axios.request({
@@ -48,5 +47,16 @@ export const getServiceAvailable = () => {
   return axios.request({
     url: `/`,
     method: "GET"
+  });
+};
+export const createReport = (email, title, content) => {
+  return axios.request({
+    url: `/reports`,
+    method: "POST",
+    data: {
+      email,
+      title,
+      content
+    }
   });
 };

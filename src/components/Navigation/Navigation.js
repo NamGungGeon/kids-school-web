@@ -28,6 +28,9 @@ const Navigation = () => {
         <li>
           <Link to={"/compare"}>유치원 비교</Link>
         </li>
+        <li>
+          <Link to={"/report"}>문의</Link>
+        </li>
       </ul>
     </>
   );

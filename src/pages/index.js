@@ -3,6 +3,7 @@ import { Route, Switch } from "react-router-dom";
 import Home from "./Home";
 import Navigation from "../components/Navigation/Navigation";
 import Compare from "./Compare";
+import Report from "./Report";
 
 const Routers = () => {
   return (
@@ -11,6 +12,12 @@ const Routers = () => {
       <Switch>
         <Route exact path={"/"} component={Home} />
         <Route exact path={"/compare"} component={Compare} />
+        <Route exact path={"/report"} component={Report} />
+        <Route
+          render={({ history }) => {
+            history.replace("/");
+          }}
+        />
       </Switch>
     </div>
   );
