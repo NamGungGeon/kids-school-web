@@ -15,10 +15,12 @@ import Loading from "../../components/Loading/Loading";
 import StarIcon from "@material-ui/icons/Star";
 import { useToasts } from "../../hook/useToast";
 import Tooltip from "@material-ui/core/Tooltip";
+import { useDeviceType } from "../../hook/useDeviceSize";
 
 const SearchResult = ({ schools, handleSelect }) => {
   const [modal, setModal] = useModal();
   const [compares, addCompare, removeCompare] = useCompares();
+  const [type] = useDeviceType();
   const [_, addToast] = useToasts();
   const isInCompares = kinderCode => {
     return compares.indexOf(kinderCode) !== -1;
@@ -47,9 +49,11 @@ const SearchResult = ({ schools, handleSelect }) => {
               button
               onClick={() => handleSelect(school)}
             >
-              <ListItemIcon>
-                <ChildCareIcon />
-              </ListItemIcon>
+              {type !== "phone" && (
+                <ListItemIcon>
+                  <ChildCareIcon />
+                </ListItemIcon>
+              )}
               <ListItemText
                 primary={school.kinderName}
                 secondary={school.address}

@@ -6,9 +6,9 @@ import MenuItem from "@material-ui/core/MenuItem";
 import { makeStyles } from "@material-ui/core/styles";
 import Chip from "@material-ui/core/Chip";
 import TextField from "@material-ui/core/TextField";
-import { getAddresses, getSchoolsByAddress } from "../../http";
 import { useAddress } from "../../hook/useAddress";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import styles from "./SearchFilter.module.css";
 
 const useStyles = makeStyles(theme => ({
   wrapper: {
@@ -64,10 +64,10 @@ const SearchFilter = ({ onUpdate = options => {} }) => {
 
   if (!isAddressLoaded) return <CircularProgress />;
   return (
-    <div className={classes.wrapper}>
-      <div className={classes.row}>
-        <p className={classes.row_label}>이름</p>
-        <FormControl className={classes.formControlLarge}>
+    <div className={styles.wrapper}>
+      <div className={styles.row}>
+        <p className={styles.label}>이름</p>
+        <FormControl className={styles.form}>
           <TextField
             value={kinderName}
             label="검색할 유치원/어린이집의 이름"
@@ -77,87 +77,91 @@ const SearchFilter = ({ onUpdate = options => {} }) => {
           />
         </FormControl>
       </div>
-      <div className={classes.row}>
-        <p className={classes.row_label}>지역</p>
-        <FormControl className={classes.formControl}>
-          <InputLabel>시/도</InputLabel>
-          <Select
-            value={sidoName}
-            onChange={e => {
-              setSidoName(e.target.value);
-            }}
-          >
-            {getSidoNames().map(sidoName => {
-              return (
-                <MenuItem key={`sido-${sidoName}`} value={sidoName}>
-                  {sidoName}
-                </MenuItem>
-              );
-            })}
-          </Select>
-        </FormControl>
-        <FormControl className={classes.formControl}>
-          <InputLabel>시/군/구</InputLabel>
-          <Select
-            value={sggName}
-            onChange={e => {
-              setSggName(e.target.value);
-            }}
-          >
-            {getSggNames(sidoName).map(sggName => {
-              return (
-                <MenuItem key={`sgg-${sggName}`} value={sggName}>
-                  {sggName}
-                </MenuItem>
-              );
-            })}
-          </Select>
-        </FormControl>
+      <div className={styles.row}>
+        <p className={styles.label}>지역</p>
+        <div className={styles.form}>
+          <FormControl>
+            <InputLabel>시/도</InputLabel>
+            <Select
+              value={sidoName}
+              onChange={e => {
+                setSidoName(e.target.value);
+              }}
+            >
+              {getSidoNames().map(sidoName => {
+                return (
+                  <MenuItem key={`sido-${sidoName}`} value={sidoName}>
+                    {sidoName}
+                  </MenuItem>
+                );
+              })}
+            </Select>
+          </FormControl>
+          <FormControl>
+            <InputLabel>시/군/구</InputLabel>
+            <Select
+              value={sggName}
+              onChange={e => {
+                setSggName(e.target.value);
+              }}
+            >
+              {getSggNames(sidoName).map(sggName => {
+                return (
+                  <MenuItem key={`sgg-${sggName}`} value={sggName}>
+                    {sggName}
+                  </MenuItem>
+                );
+              })}
+            </Select>
+          </FormControl>
+        </div>
       </div>
-      <div className={classes.row}>
-        <p className={classes.row_label}>운영시간</p>
-        <FormControl className={classes.formControl}>
-          <InputLabel>개원시간</InputLabel>
-          <Select
-            onChange={e => {
-              setTimes({
-                ...times,
-                openTime: e.target.value
-              });
-            }}
-          >
-            {allTimes.map(time => {
-              return (
-                <MenuItem key={`open-${time}`} value={time}>
-                  {time}시 이전
-                </MenuItem>
-              );
-            })}
-          </Select>
-        </FormControl>
-        <FormControl className={classes.formControl}>
-          <InputLabel>폐원시간</InputLabel>
-          <Select
-            onChange={e => {
-              setTimes({
-                ...times,
-                closeTime: e.target.value
-              });
-            }}
-          >
-            {allTimes.map(time => {
-              return (
-                <MenuItem key={`close-${time}`} value={time}>
-                  {time}시 이후
-                </MenuItem>
-              );
-            })}
-          </Select>
-        </FormControl>
+      <div className={styles.row}>
+        <p className={styles.label}>운영시간</p>
+        <div className={styles.form}>
+          <FormControl>
+            <InputLabel>개원시간</InputLabel>
+            <Select
+              onChange={e => {
+                setTimes({
+                  ...times,
+                  openTime: e.target.value
+                });
+              }}
+            >
+              {allTimes.map(time => {
+                return (
+                  <MenuItem key={`open-${time}`} value={time}>
+                    {time}시 이전
+                  </MenuItem>
+                );
+              })}
+            </Select>
+          </FormControl>
+          <FormControl>
+            <InputLabel>폐원시간</InputLabel>
+            <Select
+              onChange={e => {
+                setTimes({
+                  ...times,
+                  closeTime: e.target.value
+                });
+              }}
+            >
+              {allTimes.map(time => {
+                return (
+                  <MenuItem key={`close-${time}`} value={time}>
+                    {time}시 이후
+                  </MenuItem>
+                );
+              })}
+            </Select>
+          </FormControl>
+        </div>
       </div>
-      <div className={classes.row}>
-        <p className={classes.row_label}>설립유형</p>
-        <FormControl className={classes.formControl}>
+      <div className={styles.row}>
+        <p className={styles.label}>설립유형</p>
+        <FormControl className={styles.form}>
           <InputLabel>설립유형</InputLabel>
           <Select
             onChange={e => {
@@ -169,13 +173,13 @@ const SearchFilter = ({ onUpdate = options => {} }) => {
           </Select>
         </FormControl>
       </div>
-      <div className={classes.row}>
-        <p className={classes.row_label}>특이사항</p>
-        <div>
+      <div className={styles.row}>
+        <p className={styles.label}>특이사항</p>
+        <div className={styles.form}>
           <Chip
             className={classes.chip}
             color={additionals.requireHandicap ? "primary" : "default"}
-            label={"특수학급반"}
+            label={"특수학급반 운영"}
             onClick={() => {
               setAdditionals({
                 ...additionals,

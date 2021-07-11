@@ -8,14 +8,14 @@ import { useModal } from "../hook/useModal";
 const useStyles = makeStyles(theme => ({
   paper: {
     position: "absolute",
-    width: "90%",
+    width: "95%",
     maxWidth: "1024px",
     maxHeight: "800px",
-    overflow: "auto",
+    overflowY: "auto",
     backgroundColor: theme.palette.background.paper,
     border: "2px solid #000",
     boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3),
+    padding: theme.spacing(2, 1),
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)"

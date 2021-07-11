@@ -31,6 +31,7 @@ import TableCell from "@material-ui/core/TableCell";
 import TableBody from "@material-ui/core/TableBody";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import Alert from "@material-ui/lab/Alert";
+import { useDeviceType } from "../hook/useDeviceSize";
 
 const colors = ["#2196F3", "#D32F2F", "#9C27B0", "#651FFF", "#E91E63"];
 const useStyles = makeStyles(theme => ({
@@ -61,6 +62,7 @@ const Compare = () => {
   const [comparables] = useCompares();
   const [expanded, setExpanded] = useState(true);
   const [compares, setCompares] = useState([]);
+  const [type] = useDeviceType();
   useEffect(() => {
     if (comparables.length >= 2)
       getSchoolsByCodes(comparables)
@@ -114,9 +116,11 @@ const Compare = () => {
                         }
                       }}
                     >
-                      <ListItemIcon>
-                        <ChildCareIcon />
-                      </ListItemIcon>
+                      {type !== "phone" && (
+                        <ListItemIcon>
+                          <ChildCareIcon />
+                        </ListItemIcon>
+                      )}
                       <ListItemText
                         primary={school.kinderName}
                         secondary={school.address}
@@ -191,7 +195,7 @@ const Compare = () => {
               <div>
                 <h2>위치</h2>
                 <div>
-                  <div style={{ padding: "16px" }}>
+                  <div style={{ padding: "8px" }}>
                     <Map markers={compares} />
                   </div>
                   {compares.map((school, idx) => {
@@ -523,42 +527,6 @@ const Compare = () => {
                             </TableBody>
                           </Table>
                         </TableContainer>
-                      </SchoolSection>
-                    );
-                  })}
-                </div>
-              </div>
-              <div>
-                <h2>스쿨버스 운영</h2>
-                <div>
-                  {compares.map((school, idx) => {
-                    return (
-                      <SchoolSection
-                        key={`compare-bus-${school.kinderCode}`}
-                        color={colors[idx]}
-                        header={school.kinderName}
-                      >
-                        {school.busCount
-                          ? `${school.busCount}대 운영중`
-                          : "미운영"}
-                      </SchoolSection>
-                    );
-                  })}
-                </div>
-              </div>
-              <div>
-                <h2>CCTV 운영</h2>
-                <div>
-                  {compares.map((school, idx) => {
-                    return (
-                      <SchoolSection
-                        key={`compare-cctv-${school.kinderCode}`}
-                        color={colors[idx]}
-                        header={school.kinderName}
-                      >
-                        {school.cctvCount
-                          ? `${school.cctvCount}대 운영중`
-                          : "미운영"}
                       </SchoolSection>
                     );
                   })}
