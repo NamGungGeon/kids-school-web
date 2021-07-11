@@ -44,3 +44,9 @@ export const getSchoolsByCodes = codes => {
     }
   });
 };
+export const getServiceAvailable = () => {
+  return axios.request({
+    url: `/`,
+    method: "GET"
+  });
+};
