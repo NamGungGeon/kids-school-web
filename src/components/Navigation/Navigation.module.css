@@ -1,24 +1,29 @@
-.navWrapper {
+nav.topNav {
   color: white;
   cursor: default;
-}
-nav.topNav {
   padding: 32px 16px;
   font-weight: bold;
+  display: none;
 }
 nav.topNav + ul {
+  color: white;
+  cursor: default;
   padding: 8px 16px;
   list-style: none;
   margin: 0;
   display: flex;
   justify-content: center;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 4px 8px #666666;
 }
 nav.topNav + ul > li {
   padding: 0 8px;
   margin: 0 8px;
   cursor: pointer;
 }
-li a {
+nav.topNav + ul > li a {
   color: white !important;
   text-decoration: none !important;
 }

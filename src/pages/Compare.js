@@ -19,7 +19,6 @@ import Chip from "@material-ui/core/Chip";
 import { makeStyles } from "@material-ui/core/styles";
 import { useModal } from "../hook/useModal";
 import SchoolInfo from "../containers/SchoolInfo/SchoolInfo";
-import { observable } from "mobx";
 import { observer } from "mobx-react-lite";
 import SchoolSpecOverview from "../containers/SchoolSpecOverview/SchoolSpecOverview";
 import Map from "../components/Map/Map";
@@ -41,13 +40,15 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const SchoolSection = ({ color, header, children }) => {
+const SchoolSection = ({ color, header, children, onClick }) => {
   return (
     <div
+      onClick={onClick}
       style={{
         borderLeft: `4px solid ${color}`,
         padding: "8px",
-        marginBottom: "2px"
+        marginBottom: "2px",
+        cursor: onClick ? "pointer" : "default"
       }}
     >
       <h3 style={{ color, margin: 0, marginBottom: "8px" }}>{header}</h3>
@@ -62,11 +63,13 @@ const Compare = () => {
   const [comparables] = useCompares();
   const [expanded, setExpanded] = useState(true);
   const [compares, setCompares] = useState([]);
+  const [highlight, setHighlight] = useState();
   const [type] = useDeviceType();
   useEffect(() => {
     if (comparables.length >= 2)
       getSchoolsByCodes(comparables)
         .then(res => {
+          setHighlight(null);
           const { schools } = res.data;
           setSchools(schools);
         })
@@ -126,7 +129,20 @@ const Compare = () => {
                         secondary={school.address}
                       />
                       <ListItemSecondaryAction>
-                        <Checkbox checked={compares.indexOf(school) !== -1} />
+                        <Checkbox
+                          checked={compares.indexOf(school) !== -1}
+                          onClick={e => {
+                            e.stopPropagation();
+                            const target = compares.indexOf(school);
+                            if (target === -1) {
+                              setCompares([...compares, school]);
+                            } else {
+                              setCompares(
+                                [...compares].filter(c => c !== school)
+                              );
+                            }
+                          }}
+                        />
                       </ListItemSecondaryAction>
                     </ListItem>
                   );
@@ -196,11 +212,12 @@ const Compare = () => {
                 <h2>위치</h2>
                 <div>
                   <div style={{ padding: "8px" }}>
-                    <Map markers={compares} />
+                    <Map markers={compares} highlight={highlight} />
                   </div>
                   {compares.map((school, idx) => {
                     return (
                       <SchoolSection
+                        onClick={e => setHighlight(school)}
                         key={`compare-address-${school.kinderCode}`}
                         color={colors[idx]}
                         header={school.kinderName}
@@ -273,22 +290,6 @@ const Compare = () => {
                             </TableBody>
                           </Table>
                         </TableContainer>
-                      </SchoolSection>
-                    );
-                  })}
-                </div>
-              </div>
-              <div>
-                <h2>운영시간</h2>
-                <div>
-                  {compares.map((school, idx) => {
-                    return (
-                      <SchoolSection
-                        key={`compare-times-${school.kinderCode}`}
-                        color={colors[idx]}
-                        header={school.kinderName}
-                      >
-                        {school.openTime}~{school.closeTime}
                       </SchoolSection>
                     );
                   })}

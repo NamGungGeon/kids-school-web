@@ -37,17 +37,25 @@ const SearchResult = ({ schools, handleSelect }) => {
   return (
     <div>
       <List
-        style={{
-          maxHeight: "500px",
-          overflow: "auto"
-        }}
+        style={
+          type === "desktop"
+            ? {
+                maxHeight: "500px",
+                overflow: "auto"
+              }
+            : null
+        }
       >
         {schools?.map(school => {
           return (
             <ListItem
               key={`school-${school.kinderCode}`}
               button
-              onClick={() => handleSelect(school)}
+              onClick={() => {
+                handleSelect(school);
+                if (type === "phone")
+                  setModal(<SchoolInfo kinderCode={school.kinderCode} />);
+              }}
             >
               {type !== "phone" && (
                 <ListItemIcon>

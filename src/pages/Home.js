@@ -50,7 +50,7 @@ const Home = () => {
   };
   useEffect(() => {
     const { sidoName, sggName } = filter;
-    setSchools([]);
+    setSchools(null);
     console.log("filter updated", filter);
     if (sidoName && sggName) {
       getSchoolsByAddress(sidoName, sggName, filter)

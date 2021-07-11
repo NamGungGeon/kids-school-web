@@ -18,25 +18,16 @@ export const useDeviceSize = () => {
 };
 
 export const useDeviceType = () => {
-  const [width, setWidth] = useState(window.innerWidth);
+  const [width, height] = useDeviceSize(window.innerWidth);
   const [type, setType] = useState("desktop");
   useEffect(() => {
-    if (width > 1200) {
+    if (width > 800) {
       if (type !== "desktop") setType("desktop");
-    } else if (width > 600) {
+    } else if (width > 500) {
       if (type !== "tablet") setType("tablet");
     } else {
       if (type !== "phone") setType("phone");
     }
   }, [width]);
-  useEffect(() => {
-    const callback = () => {
-      setWidth(window.innerWidth);
-    };
-    window.addEventListener("resize", callback);
-    return () => {
-      window.removeEventListener("resize", callback);
-    };
-  }, []);
   return [type];
 };

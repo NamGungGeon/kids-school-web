@@ -16,6 +16,9 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
 }
+.grid > * {
+  overflow: auto;
+}
 .padding {
   padding: 16px;
 }
@@ -34,7 +37,7 @@ table {
 table th {
   font-weight: bolder;
 }
-@media (max-width: 600px) {
+@media (max-width: 800px) {
   .grid {
     display: block;
   }

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useModal } from "../../hook/useModal";
 import SchoolInfo from "../../containers/SchoolInfo/SchoolInfo";
 import { useToasts } from "../../hook/useToast";
+import { useDeviceType } from "../../hook/useDeviceSize";
 
 const Map = ({
   camera = [37.506502, 127.053617],
@@ -16,6 +17,8 @@ const Map = ({
   const [infoWindow, setInfoWindow] = useState();
   const [_, setModal] = useModal();
   const [__, addToast] = useToasts();
+  const [deviceType] = useDeviceType();
+
   useEffect(() => {
     infoWindow?.setMap(null);
     if (markers && map) {
@@ -114,7 +117,7 @@ const Map = ({
       className={className}
       style={{
         width: "100%",
-        height: "500px"
+        height: deviceType === "phone" ? "256px" : "500px"
       }}
       ref={setRef}
     />

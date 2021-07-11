@@ -16,13 +16,18 @@ const withToast = WrappedComponent => {
             flexDirection: "column",
             width: "100%",
             alignItems: "center",
-            zIndex: "100"
+            zIndex: "9999"
           }}
         >
           {toasts &&
             toasts.map(toast => {
               return (
-                <Alert key={toast.id} elevation={6} severity={toast.severity}>
+                <Alert
+                  key={toast.id}
+                  elevation={6}
+                  severity={toast.severity}
+                  style={{ margin: "8px" }}
+                >
                   {toast.children}
                 </Alert>
               );
