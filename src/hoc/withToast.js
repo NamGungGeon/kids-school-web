@@ -22,7 +22,7 @@ const withToast = WrappedComponent => {
           {toasts &&
             toasts.map(toast => {
               return (
-                <Alert elevation={6} severity={toast.severity}>
+                <Alert key={toast.id} elevation={6} severity={toast.severity}>
                   {toast.children}
                 </Alert>
               );

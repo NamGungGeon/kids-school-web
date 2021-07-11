@@ -42,7 +42,11 @@ const SearchResult = ({ schools, handleSelect }) => {
       >
         {schools?.map(school => {
           return (
-            <ListItem button onClick={() => handleSelect(school)}>
+            <ListItem
+              key={`school-${school.kinderCode}`}
+              button
+              onClick={() => handleSelect(school)}
+            >
               <ListItemIcon>
                 <ChildCareIcon />
               </ListItemIcon>
@@ -65,7 +69,9 @@ const SearchResult = ({ schools, handleSelect }) => {
                   >
                     <StarIcon
                       color={
-                        isInCompares(school.kinderCode) ? "secondary" : "basic"
+                        isInCompares(school.kinderCode)
+                          ? "secondary"
+                          : "inherit"
                       }
                     />
                   </IconButton>

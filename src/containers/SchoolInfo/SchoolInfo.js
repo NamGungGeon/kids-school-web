@@ -170,6 +170,7 @@ const SchoolInfo = ({ kinderCode, school = null }) => {
                   {info.insurances.map(insure => {
                     return (
                       <Chip
+                        key={`${info.kinderCode}-insure-${insure.insureName}`}
                         icon={<FavoriteIcon />}
                         color={"primary"}
                         size={"small"}

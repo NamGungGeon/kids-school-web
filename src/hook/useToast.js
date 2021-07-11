@@ -8,6 +8,9 @@ export const useToasts = () => {
   }, [toasts]);
   const addToast = (children, severity = "success", timeout = 2000) => {
     toasts.push({
+      id: Math.random()
+        .toString(36)
+        .substr(2, 11),
       children,
       severity
     });

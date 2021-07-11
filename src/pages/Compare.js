@@ -69,7 +69,7 @@ const Compare = () => {
           2개 이상의 유치원/어린이집이 비교함에 담겨 있어야 합니다
         </Typography>
       )}
-      {comparables.length && (
+      {comparables.length > 0 && (
         <Accordion
           expanded={expanded}
           onChange={(_, expanded) => {
@@ -91,6 +91,7 @@ const Compare = () => {
                 {schools.map((school, idx) => {
                   return (
                     <ListItem
+                      key={`comparable-${school.kinderCode}`}
                       button
                       onClick={e => {
                         const target = compares.indexOf(school);
@@ -104,13 +105,13 @@ const Compare = () => {
                       <ListItemIcon>
                         <ChildCareIcon />
                       </ListItemIcon>
-                      <ListItemSecondaryAction>
-                        <Checkbox checked={compares.indexOf(school) !== -1} />
-                      </ListItemSecondaryAction>
                       <ListItemText
                         primary={school.kinderName}
                         secondary={school.address}
                       />
+                      <ListItemSecondaryAction>
+                        <Checkbox checked={compares.indexOf(school) !== -1} />
+                      </ListItemSecondaryAction>
                     </ListItem>
                   );
                 })}
@@ -131,6 +132,7 @@ const Compare = () => {
             {compares.map((school, idx) => {
               return (
                 <Chip
+                  key={`compare-${school.kinderCode}`}
                   onClick={() => {
                     setModal(<SchoolInfo kinderCode={school.kinderCode} />);
                   }}
@@ -156,6 +158,7 @@ const Compare = () => {
                 {compares.map((school, idx) => {
                   return (
                     <SchoolSection
+                      key={`compare-address-${school.kinderCode}`}
                       color={colors[idx]}
                       header={school.kinderName}
                     >
@@ -171,6 +174,7 @@ const Compare = () => {
                 {compares.map((school, idx) => {
                   return (
                     <SchoolSection
+                      key={`compare-distance-${school.kinderCode}`}
                       color={colors[idx]}
                       header={school.kinderName}
                     >
@@ -186,6 +190,7 @@ const Compare = () => {
                 {compares.map((school, idx) => {
                   return (
                     <SchoolSection
+                      key={`compare-kinderType-${school.kinderCode}`}
                       color={colors[idx]}
                       header={school.kinderName}
                     >
@@ -201,6 +206,7 @@ const Compare = () => {
                 {compares.map((school, idx) => {
                   return (
                     <SchoolSection
+                      key={`compare-times-${school.kinderCode}`}
                       color={colors[idx]}
                       header={school.kinderName}
                     >
@@ -216,6 +222,7 @@ const Compare = () => {
                 {compares.map((school, idx) => {
                   return (
                     <SchoolSection
+                      key={`compare-class-${school.kinderCode}`}
                       color={colors[idx]}
                       header={school.kinderName}
                     >
@@ -231,6 +238,7 @@ const Compare = () => {
                 {compares.map((school, idx) => {
                   return (
                     <SchoolSection
+                      key={`compare-foodType-${school.kinderCode}`}
                       color={colors[idx]}
                       header={school.kinderName}
                     >
@@ -246,6 +254,7 @@ const Compare = () => {
                 {compares.map((school, idx) => {
                   return (
                     <SchoolSection
+                      key={`compare-bus-${school.kinderCode}`}
                       color={colors[idx]}
                       header={school.kinderName}
                     >
@@ -261,6 +270,7 @@ const Compare = () => {
                 {compares.map((school, idx) => {
                   return (
                     <SchoolSection
+                      key={`compare-cctv-${school.kinderCode}`}
                       color={colors[idx]}
                       header={school.kinderName}
                     >

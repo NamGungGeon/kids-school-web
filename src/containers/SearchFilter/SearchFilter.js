@@ -88,7 +88,11 @@ const SearchFilter = ({ onUpdate = options => {} }) => {
             }}
           >
             {getSidoNames().map(sidoName => {
-              return <MenuItem value={sidoName}>{sidoName}</MenuItem>;
+              return (
+                <MenuItem key={`sido-${sidoName}`} value={sidoName}>
+                  {sidoName}
+                </MenuItem>
+              );
             })}
           </Select>
         </FormControl>
@@ -101,7 +105,11 @@ const SearchFilter = ({ onUpdate = options => {} }) => {
             }}
           >
             {getSggNames(sidoName).map(sggName => {
-              return <MenuItem value={sggName}>{sggName}</MenuItem>;
+              return (
+                <MenuItem key={`sgg-${sggName}`} value={sggName}>
+                  {sggName}
+                </MenuItem>
+              );
             })}
           </Select>
         </FormControl>
@@ -119,7 +127,11 @@ const SearchFilter = ({ onUpdate = options => {} }) => {
             }}
           >
             {allTimes.map(time => {
-              return <MenuItem value={time}>{time}시 이전</MenuItem>;
+              return (
+                <MenuItem key={`open-${time}`} value={time}>
+                  {time}시 이전
+                </MenuItem>
+              );
             })}
           </Select>
         </FormControl>
@@ -134,7 +146,11 @@ const SearchFilter = ({ onUpdate = options => {} }) => {
             }}
           >
             {allTimes.map(time => {
-              return <MenuItem value={time}>{time}시 이후</MenuItem>;
+              return (
+                <MenuItem key={`close-${time}`} value={time}>
+                  {time}시 이후
+                </MenuItem>
+              );
             })}
           </Select>
         </FormControl>
@@ -158,7 +174,7 @@ const SearchFilter = ({ onUpdate = options => {} }) => {
         <div>
           <Chip
             className={classes.chip}
-            color={additionals.requireHandicap ? "primary" : "basic"}
+            color={additionals.requireHandicap ? "primary" : "default"}
             label={"특수학급반"}
             onClick={() => {
               setAdditionals({
@@ -169,7 +185,7 @@ const SearchFilter = ({ onUpdate = options => {} }) => {
           />
           <Chip
             className={classes.chip}
-            color={additionals.requireBus ? "primary" : "basic"}
+            color={additionals.requireBus ? "primary" : "default"}
             label={"스쿨버스 운영"}
             onClick={() => {
               setAdditionals({
@@ -180,7 +196,7 @@ const SearchFilter = ({ onUpdate = options => {} }) => {
           />
           <Chip
             className={classes.chip}
-            color={additionals.requireCCTV ? "primary" : "basic"}
+            color={additionals.requireCCTV ? "primary" : "default"}
             label={"CCTV 운영"}
             onClick={() => {
               setAdditionals({
