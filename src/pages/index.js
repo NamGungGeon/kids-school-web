@@ -4,6 +4,7 @@ import Home from "./Home";
 import Navigation from "../components/Navigation/Navigation";
 import Compare from "./Compare";
 import Report from "./Report";
+import withBoundary from "../hoc/withErrorBoundary";
 
 const Routers = () => {
   return (
@@ -23,4 +24,4 @@ const Routers = () => {
   );
 };
 
-export default Routers;
+export default withBoundary(Routers);

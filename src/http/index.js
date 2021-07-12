@@ -60,3 +60,13 @@ export const createReport = (email, title, content) => {
     }
   });
 };
+export const createLog = (summary, log) => {
+  return axios.request({
+    url: `/logs`,
+    method: "POST",
+    data: {
+      summary,
+      log
+    }
+  });
+};
