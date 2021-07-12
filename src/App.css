@@ -29,7 +29,16 @@
   justify-content: center;
   align-items: center;
 }
-
+.infoBox {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  padding: 16px;
+  width: 100%;
+  z-index: 10;
+  box-shadow: 0 -4px 4px #aaaaaa;
+  background: white;
+}
 table {
   min-width: 512px;
   overflow-x: auto;
@@ -40,5 +49,8 @@ table th {
 @media (max-width: 800px) {
   .grid {
     display: block;
+  }
+  .content {
+    padding: 8px;
   }
 }

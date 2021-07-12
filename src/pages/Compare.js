@@ -59,10 +59,22 @@ const Compare = ({ location }) => {
             수 있습니다
           </Alert>
           <br />
-          <div>
+          <div
+            className={classNames({
+              infoBox: device === "phone"
+            })}
+          >
+            {device === "phone" && (
+              <h3 style={{ margin: 0 }}>
+                비교 중인 유치원/어린이집
+                <br />
+                <br />
+              </h3>
+            )}
             {compares.map((school, idx) => {
               return (
                 <Chip
+                  size={device === "phone" ? "small" : "medium"}
                   key={`compare-${school.kinderCode}`}
                   onClick={() => {
                     setModal(<SchoolInfo kinderCode={school.kinderCode} />);
