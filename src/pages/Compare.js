@@ -146,7 +146,6 @@ const Compare = ({ location }) => {
           <CompareSchools schools={compares} />
         </Paper>
       )}
-      <div style={{ height: "128px" }} />
     </div>
   );
 };
