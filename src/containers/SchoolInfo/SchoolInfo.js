@@ -20,6 +20,7 @@ import { useCompares } from "../../hook/useCompares";
 import Tooltip from "@material-ui/core/Tooltip";
 import { useToasts } from "../../hook/useToast";
 import SchoolSpecOverview from "../SchoolSpecOverview/SchoolSpecOverview";
+import { observer } from "mobx-react-lite";
 
 const useStyles = makeStyles(theme => ({
   header: {
@@ -317,4 +318,4 @@ const SchoolInfo = ({ kinderCode, school = null }) => {
   );
 };
 
-export default SchoolInfo;
+export default observer(SchoolInfo);

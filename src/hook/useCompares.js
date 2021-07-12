@@ -14,23 +14,29 @@ const initValue = (() => {
 const observableCompares = observable({ value: initValue });
 
 export const useCompares = () => {
-  const [compares, setCompares] = useState(observableCompares.value);
   useEffect(() => {
-    console.log("compares", compares);
-    if (compares) {
-      localStorage.setItem("compares", JSON.stringify(compares));
-    }
-    observableCompares.value = compares;
-  }, [compares]);
+    console.log("sync with localstorage");
+    localStorage.setItem("compares", JSON.stringify(observableCompares.value));
+  }, [observableCompares.value]);
 
+  const sort = compares => {
+    console.log("sort");
+    return compares.sort((c1, c2) => {
+      if (c1.kinderName > c2.kinderName) return -1;
+      else if (c1.kinderName < c2.kinderName) return 1;
+      else return 0;
+    });
+  };
   const addCompare = kinderCode => {
+    const compares = toJS(observableCompares.value);
     const newCompares = [...compares].filter(code => kinderCode !== code);
     newCompares.push(kinderCode);
-    setCompares(newCompares);
+    observableCompares.value = sort(newCompares);
   };
   const removeCompare = kinderCode => {
+    const compares = toJS(observableCompares.value);
     const newCompares = [...compares].filter(code => kinderCode !== code);
-    setCompares(newCompares);
+    observableCompares.value = sort(newCompares);
   };
-  return [compares, addCompare, removeCompare];
+  return [observableCompares.value, addCompare, removeCompare];
 };

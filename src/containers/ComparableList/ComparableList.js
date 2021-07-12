@@ -15,7 +15,40 @@ import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import Checkbox from "@material-ui/core/Checkbox";
 import Loading from "../../components/Loading/Loading";
 import { getSchoolsByCodes } from "../../http";
+import { observer } from "mobx-react-lite";
+import DeleteIcon from "@material-ui/icons/Delete";
+import Tooltip from "@material-ui/core/Tooltip";
+import IconButton from "@material-ui/core/IconButton";
+import { Button, useTheme } from "@material-ui/core";
+import { useModal } from "../../hook/useModal";
 
+const RemoveDialog = observer(({ school, onClose }) => {
+  const [_, __, removeCompare] = useCompares();
+  const [device] = useDeviceType();
+  return (
+    <div>
+      {device === "desktop" ? (
+        <h2>{school.kinderName}을 비교함에서 삭제하시겠습니까?</h2>
+      ) : (
+        <p>{school.kinderName}을 비교함에서 삭제하시겠습니까?</p>
+      )}
+      <div style={{ textAlign: "right" }}>
+        <Button
+          color={"secondary"}
+          size={"small"}
+          onClick={e => {
+            removeCompare(school.kinderCode);
+            onClose();
+          }}
+        >
+          삭제
+        </Button>
+        &nbsp;
+        <Button size={"small"}>취소</Button>
+      </div>
+    </div>
+  );
+});
 const ComparableList = ({
   onUpdateCompares = compares => {},
   initCompares = [],
@@ -27,9 +60,13 @@ const ComparableList = ({
 }) => {
   const [schools, setSchools] = useState();
   const [comparables] = useCompares();
+  const [modal, setModal] = useModal();
   const [expanded, setExpanded] = useState(true);
   const [compares, setCompares] = useState(initCompares);
   const [type] = useDeviceType();
+  const theme = useTheme();
+  const { palette } = theme;
+
   useEffect(() => {
     onUpdateCompares(compares);
   }, [compares]);
@@ -71,6 +108,11 @@ const ComparableList = ({
             {schools.map((school, idx) => {
               return (
                 <ListItem
+                  style={
+                    type === "phone" && compares.indexOf(school) !== -1
+                      ? { borderLeft: `2px solid ${palette.primary.main}` }
+                      : {}
+                  }
                   key={`comparable-${school.kinderCode}`}
                   button
                   onClick={e => {
@@ -88,22 +130,50 @@ const ComparableList = ({
                     </ListItemIcon>
                   )}
                   <ListItemText
-                    primary={school.kinderName}
+                    primary={
+                      <span
+                        style={
+                          type === "phone" && compares.indexOf(school) !== -1
+                            ? { color: palette.primary.main }
+                            : {}
+                        }
+                      >
+                        {school.kinderName}
+                      </span>
+                    }
                     secondary={school.address}
                   />
                   <ListItemSecondaryAction>
-                    <Checkbox
-                      checked={compares.indexOf(school) !== -1}
-                      onClick={e => {
-                        e.stopPropagation();
-                        const target = compares.indexOf(school);
-                        if (target === -1) {
-                          setCompares([...compares, school]);
-                        } else {
-                          setCompares([...compares].filter(c => c !== school));
-                        }
-                      }}
-                    />
+                    {type !== "phone" && (
+                      <Checkbox
+                        checked={compares.indexOf(school) !== -1}
+                        onClick={e => {
+                          e.stopPropagation();
+                          const target = compares.indexOf(school);
+                          if (target === -1) {
+                            setCompares([...compares, school]);
+                          } else {
+                            setCompares(
+                              [...compares].filter(c => c !== school)
+                            );
+                          }
+                        }}
+                      />
+                    )}
+                    <Tooltip title={"삭제"}>
+                      <IconButton
+                        onClick={() => {
+                          setModal(
+                            <RemoveDialog
+                              school={school}
+                              onClose={() => setModal(null)}
+                            />
+                          );
+                        }}
+                      >
+                        <DeleteIcon />
+                      </IconButton>
+                    </Tooltip>
                   </ListItemSecondaryAction>
                 </ListItem>
               );
@@ -115,4 +185,4 @@ const ComparableList = ({
   );
 };
 
-export default ComparableList;
+export default observer(ComparableList);
