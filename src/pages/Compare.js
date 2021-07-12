@@ -1,20 +1,7 @@
 import React, { useEffect, useState } from "react";
-import Accordion from "@material-ui/core/Accordion";
-import AccordionSummary from "@material-ui/core/AccordionSummary";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import Typography from "@material-ui/core/Typography";
-import AccordionDetails from "@material-ui/core/AccordionDetails";
 import Paper from "@material-ui/core/Paper";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
-import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
-import Checkbox from "@material-ui/core/Checkbox";
-import { useCompares } from "../hook/useCompares";
-import { getSchoolsByCodes } from "../http";
-import Loading from "../components/Loading/Loading";
 import ChildCareIcon from "@material-ui/icons/ChildCare";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
 import Chip from "@material-ui/core/Chip";
 import { makeStyles } from "@material-ui/core/styles";
 import { useModal } from "../hook/useModal";
@@ -30,7 +17,7 @@ import TableCell from "@material-ui/core/TableCell";
 import TableBody from "@material-ui/core/TableBody";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import Alert from "@material-ui/lab/Alert";
-import { useDeviceType } from "../hook/useDeviceSize";
+import ComparableList from "../containers/ComparableList/ComparableList";
 
 const colors = ["#2196F3", "#D32F2F", "#9C27B0", "#651FFF", "#E91E63"];
 const useStyles = makeStyles(theme => ({
@@ -59,103 +46,21 @@ const SchoolSection = ({ color, header, children, onClick }) => {
 const Compare = () => {
   const classes = useStyles();
   const [_, setModal] = useModal();
-  const [schools, setSchools] = useState();
-  const [comparables] = useCompares();
-  const [expanded, setExpanded] = useState(true);
   const [compares, setCompares] = useState([]);
   const [highlight, setHighlight] = useState();
-  const [type] = useDeviceType();
   useEffect(() => {
-    if (comparables.length >= 2)
-      getSchoolsByCodes(comparables)
-        .then(res => {
-          setHighlight(null);
-          const { schools } = res.data;
-          setSchools(schools);
-        })
-        .catch(console.error);
-  }, [comparables]);
-  if (comparables.length >= 2 && !schools) {
-    return <Loading />;
-  }
+    setHighlight(null);
+  }, [compares]);
   return (
     <div className={"content"}>
       <h1>유치원 비교</h1>
-      {comparables.length < 2 && (
-        <Typography>
-          2개 이상의 유치원/어린이집이 비교함에 담겨 있어야 합니다
-        </Typography>
-      )}
-      {comparables.length > 0 && (
-        <Accordion
-          expanded={expanded}
-          onChange={(_, expanded) => {
-            if (!compares) {
-              setExpanded(true);
-            } else {
-              setExpanded(expanded);
-            }
-          }}
-        >
-          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography>
-              <b>비교 유치원 선택</b>
-            </Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <div style={{ width: "100%" }}>
-              <List>
-                {schools.map((school, idx) => {
-                  return (
-                    <ListItem
-                      key={`comparable-${school.kinderCode}`}
-                      button
-                      onClick={e => {
-                        const target = compares.indexOf(school);
-                        if (target === -1) {
-                          setCompares([...compares, school]);
-                        } else {
-                          setCompares([...compares].filter(c => c !== school));
-                        }
-                      }}
-                    >
-                      {type !== "phone" && (
-                        <ListItemIcon>
-                          <ChildCareIcon />
-                        </ListItemIcon>
-                      )}
-                      <ListItemText
-                        primary={school.kinderName}
-                        secondary={school.address}
-                      />
-                      <ListItemSecondaryAction>
-                        <Checkbox
-                          checked={compares.indexOf(school) !== -1}
-                          onClick={e => {
-                            e.stopPropagation();
-                            const target = compares.indexOf(school);
-                            if (target === -1) {
-                              setCompares([...compares, school]);
-                            } else {
-                              setCompares(
-                                [...compares].filter(c => c !== school)
-                              );
-                            }
-                          }}
-                        />
-                      </ListItemSecondaryAction>
-                    </ListItem>
-                  );
-                })}
-              </List>
-            </div>
-          </AccordionDetails>
-        </Accordion>
-      )}
+      <ComparableList onUpdateCompares={setCompares} />
       <br />
       {compares.length > colors.length && (
         <Typography>
           비교는 한 번에 {colors.length}개까지만 할 수 있습니다
+          <br />
+          (현재 {compares.length}개 선택됨)
         </Typography>
       )}
       {compares.length >= 2 && compares.length <= colors.length && (
