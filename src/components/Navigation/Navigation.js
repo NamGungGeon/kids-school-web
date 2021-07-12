@@ -40,6 +40,11 @@ const Navigation = () => {
             문의
           </NavLink>
         </li>
+        <li>
+          <NavLink to={"/info"} activeStyle={{ textDecoration: "underline" }}>
+            정보
+          </NavLink>
+        </li>
       </ul>
     </>
   );
