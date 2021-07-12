@@ -13,6 +13,11 @@ import { getSchoolsByCodes } from "../http";
 import CompareSchools from "../containers/CompareSchools/CompareSchools";
 import { useDeviceType } from "../hook/useDeviceSize";
 import classNames from "classnames";
+import { Button, Input } from "@material-ui/core";
+import ShareIcon from "@material-ui/icons/Share";
+import { useToasts } from "../hook/useToast";
+import TextField from "@material-ui/core/TextField";
+import InputBase from "@material-ui/core/InputBase";
 
 const colors = ["#2196F3", "#D32F2F", "#9C27B0", "#651FFF", "#E91E63"];
 const useStyles = makeStyles(theme => ({
@@ -25,8 +30,24 @@ const useStyles = makeStyles(theme => ({
 const Compare = ({ location }) => {
   const classes = useStyles();
   const [_, setModal] = useModal();
+  const [__, addToast] = useToasts();
   const [compares, setCompares] = useState([]);
   const [device] = useDeviceType();
+  const [clipboard, setClipboard] = useState();
+
+  const execCopy = () => {
+    if (!document.queryCommandSupported("copy")) {
+      return false;
+    }
+    if (clipboard) {
+      clipboard.focus();
+      clipboard.select();
+      document.execCommand("copy");
+      return true;
+    }
+
+    return false;
+  };
 
   useEffect(() => {
     const presets = queryString.parse(location.search).presets?.split(",");
@@ -71,6 +92,35 @@ const Compare = ({ location }) => {
                 <br />
               </h3>
             )}
+            <div className={"flex center"}>
+              <TextField
+                size={device === "phone" ? "small" : "medium"}
+                style={{ flex: 1 }}
+                inputRef={setClipboard}
+                value={`${window.location.origin}${
+                  window.location.pathname
+                }?presets=${compares.map(c => c.kinderCode).join(",")}`}
+              />
+              <Button
+                size={device === "phone" ? "small" : "medium"}
+                onClick={() => {
+                  if (execCopy()) {
+                    addToast(
+                      "비교중인 리스트를 공유할 수 있는 링크가 클립보드에 복사되었습니다",
+                      "success"
+                    );
+                  } else {
+                    addToast("클립보드를 사용할 수 없는 환경입니다", "error");
+                  }
+                }}
+                variant={"outlined"}
+                color={"primary"}
+                startIcon={<ShareIcon />}
+              >
+                비교중인 항목 공유하기
+              </Button>
+            </div>
+            <br />
             {compares.map((school, idx) => {
               return (
                 <Chip
