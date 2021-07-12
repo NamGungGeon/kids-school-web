@@ -45,7 +45,7 @@ const Navigation = () => {
         </li>
         <li>
           <NavLink to={"/info"} activeStyle={{ textDecoration: "underline" }}>
-            정보
+            서비스 정보
           </NavLink>
         </li>
       </ul>

@@ -11,7 +11,7 @@ const Info = () => {
         <a href="https://e-childschoolinfo.moe.go.kr/main.do">
           https://e-childschoolinfo.moe.go.kr/main.do
         </a>
-        에서 크롤링한 데이터를 가공하여 제공합니다
+        에서 OPEN API로 제공되는 데이터를 크롤링 및 가공하여 제공합니다
       </Typography>
       <h2>주의사항</h2>
       <Typography>
