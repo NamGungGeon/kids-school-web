@@ -40,6 +40,7 @@
       "/info"
     ],
     "puppeteerArgs": [
+      "--disable-web-security",
       "--no-sandbox",
       "--disable-setuid-sandbox"
     ]
