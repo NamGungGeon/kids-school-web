@@ -11,19 +11,24 @@ nav.topNav + ul {
   padding: 8px 16px;
   list-style: none;
   margin: 0;
+
   display: flex;
   justify-content: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
   position: sticky;
   top: 0;
   z-index: 100;
   box-shadow: 0 4px 8px #666666;
 }
 nav.topNav + ul > li {
-  padding: 0 8px;
-  margin: 0 8px;
+  margin: 4px;
   cursor: pointer;
+  min-width: 100px;
+  text-align: center;
 }
 nav.topNav + ul > li a {
   color: white !important;
-  text-decoration: none !important;
+  text-decoration: none;
 }

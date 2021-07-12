@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./Navigation.module.css";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { useTheme } from "@material-ui/core";
 const Navigation = () => {
   const theme = useTheme();
@@ -23,13 +23,22 @@ const Navigation = () => {
         }}
       >
         <li>
-          <Link to={"/"}>유치원 찾기</Link>
+          <NavLink exact to={"/"} activeStyle={{ textDecoration: "underline" }}>
+            유치원 찾기
+          </NavLink>
         </li>
         <li>
-          <Link to={"/compare"}>유치원 비교</Link>
+          <NavLink
+            to={"/compare"}
+            activeStyle={{ textDecoration: "underline" }}
+          >
+            유치원 비교
+          </NavLink>
         </li>
         <li>
-          <Link to={"/report"}>문의</Link>
+          <NavLink to={"/report"} activeStyle={{ textDecoration: "underline" }}>
+            문의
+          </NavLink>
         </li>
       </ul>
     </>
