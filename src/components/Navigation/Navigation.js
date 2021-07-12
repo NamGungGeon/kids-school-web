@@ -2,6 +2,8 @@ import React from "react";
 import styles from "./Navigation.module.css";
 import { Link, NavLink } from "react-router-dom";
 import { useTheme } from "@material-ui/core";
+import logo from "../../resources/logo.png";
+
 const Navigation = () => {
   const theme = useTheme();
   const { palette } = theme;
@@ -14,8 +16,9 @@ const Navigation = () => {
           background: palette.primary.dark
         }}
       >
-        <div>Logo</div>
-        <div></div>
+        <Link to={"/"}>
+          <img src={logo} alt={"logo"} className={styles.logo} />
+        </Link>
       </nav>
       <ul
         style={{

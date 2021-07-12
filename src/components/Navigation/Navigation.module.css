@@ -1,9 +1,13 @@
 nav.topNav {
   color: white;
   cursor: default;
-  padding: 32px 16px;
+  padding: 16px;
   font-weight: bold;
-  display: none;
+}
+nav.topNav .logo {
+  width: 128px;
+  height: auto;
+  cursor: pointer;
 }
 nav.topNav + ul {
   color: white;
