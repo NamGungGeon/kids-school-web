@@ -1,17 +1,22 @@
 import { useEffect, useState } from "react";
 import { getAddresses } from "../http";
 
+let _addresses = null;
 export const useAddress = () => {
-  const [addresses, setAddresses] = useState();
+  const [addresses, setAddresses] = useState(_addresses);
   useEffect(() => {
-    getAddresses()
-      .then(res => {
-        const { addresses } = res.data;
-        console.log(addresses);
-        setAddresses(addresses);
-      })
-      .catch(console.error);
+    if (!addresses)
+      getAddresses()
+        .then(res => {
+          const { addresses } = res.data;
+          console.log(addresses);
+          setAddresses(addresses);
+        })
+        .catch(console.error);
   }, []);
+  useEffect(() => {
+    if (addresses) _addresses = addresses;
+  }, [addresses]);
   const getSidoNames = () => {
     const results = [];
     if (addresses) {
