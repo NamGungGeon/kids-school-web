@@ -131,15 +131,19 @@ const ComparableList = ({
                   )}
                   <ListItemText
                     primary={
-                      <span
+                      <b
                         style={
                           type === "phone" && compares.indexOf(school) !== -1
                             ? { color: palette.primary.main }
                             : {}
                         }
                       >
+                        {type === "phone" &&
+                          compares.indexOf(school) !== -1 && (
+                            <span>(선택됨)</span>
+                          )}
                         {school.kinderName}
-                      </span>
+                      </b>
                     }
                     secondary={school.address}
                   />

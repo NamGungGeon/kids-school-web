@@ -45,6 +45,9 @@ table {
   min-width: 512px;
   overflow-x: auto;
 }
+table.small {
+  min-width: 400px;
+}
 table th {
   font-weight: bolder;
 }

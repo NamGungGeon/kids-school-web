@@ -12,6 +12,7 @@ import TableCell from "@material-ui/core/TableCell";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import TableHead from "@material-ui/core/TableHead";
 import Loading from "../../components/Loading/Loading";
+import classNames from "classnames";
 
 const colors = ["#2196F3", "#D32F2F", "#9C27B0", "#651FFF", "#E91E63"];
 const useStyles = makeStyles(theme => ({
@@ -104,7 +105,7 @@ const CompareSchools = ({ schools = [] }) => {
                 >
                   <TableContainer>
                     <Table
-                      className={classes.table}
+                      className={classNames(classes.table, "small")}
                       size="small"
                       aria-label="a dense table"
                     >

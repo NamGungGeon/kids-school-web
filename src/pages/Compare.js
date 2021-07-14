@@ -85,13 +85,6 @@ const Compare = ({ location }) => {
               infoBox: device === "phone"
             })}
           >
-            {device === "phone" && (
-              <h3 style={{ margin: 0 }}>
-                비교 중인 유치원/어린이집
-                <br />
-                <br />
-              </h3>
-            )}
             <div className={"flex center"}>
               <TextField
                 size={device === "phone" ? "small" : "medium"}
@@ -146,6 +139,7 @@ const Compare = ({ location }) => {
           <CompareSchools schools={compares} />
         </Paper>
       )}
+      <div style={{ height: "128px" }} />
     </div>
   );
 };
