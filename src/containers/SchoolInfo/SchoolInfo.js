@@ -21,10 +21,14 @@ import Tooltip from "@material-ui/core/Tooltip";
 import { useToasts } from "../../hook/useToast";
 import SchoolSpecOverview from "../SchoolSpecOverview/SchoolSpecOverview";
 import { observer } from "mobx-react-lite";
+import ShareIcon from "@material-ui/icons/Share";
+import TextField from "@material-ui/core/TextField";
 
 const useStyles = makeStyles(theme => ({
   header: {
-    justifyContent: "space-between"
+    justifyContent: "space-between",
+    width: "100%",
+    flexWrap: "wrap"
   },
   chip: {
     margin: theme.spacing(0.5),
@@ -37,14 +41,31 @@ const useStyles = makeStyles(theme => ({
     marginTop: 0
   }
 }));
+
+const execCopy = ref => {
+  if (!document.queryCommandSupported("copy")) {
+    return false;
+  }
+  if (ref) {
+    ref.style.display = "block";
+    ref.focus();
+    ref.select();
+    document.execCommand("copy");
+    return true;
+  }
+
+  return false;
+};
 const SchoolInfo = ({ kinderCode, school = null }) => {
   const classes = useStyles();
   const [info, setInfo] = useState(school);
   const [_, addToast] = useToasts();
   const [compares, addCompare, removeCompare] = useCompares();
+  const [inputRef, setInputRef] = useState();
   const isInCompares = () => {
     return compares.indexOf(info?.kinderCode) !== -1;
   };
+  const [supportShare] = useState(navigator.share);
   useEffect(() => {
     if (!info) {
       getSchoolInfo(kinderCode)
@@ -123,6 +144,35 @@ const SchoolInfo = ({ kinderCode, school = null }) => {
             </IconButton>
           </Tooltip>
         </div>
+      </div>
+      <div className={"flex center"}>
+        <TextField
+          fullWidth
+          style={{ flex: 1 }}
+          inputRef={setInputRef}
+          value={`${window.location.origin}/schools/${info.kinderCode}`}
+        />
+        <Tooltip title={"공유하기"}>
+          <IconButton
+            onClick={() => {
+              if (supportShare) {
+                // url: 공유될 URL을 나타내는 USVString.
+                // text: 공유될 본문을 나타내는 USVString.
+                // title: 공유될 제목을 나타내는 USVString.
+                supportShare({
+                  url: window.location.href,
+                  title: `키즈스쿨: ${info.kinderName}`
+                });
+              } else if (execCopy(inputRef)) {
+                addToast("클립보드에 url 정보가 복사되었습니다", "success");
+              } else {
+                addToast("공유하기가 지원되지 않는 환경입니다", "warning");
+              }
+            }}
+          >
+            <ShareIcon color={"basic"} />
+          </IconButton>
+        </Tooltip>
       </div>
       <Alert severity="warning">
         해당 정보는 정보공시일 기준으로 제공되며, 현재와는 다른 내용이 있을 수

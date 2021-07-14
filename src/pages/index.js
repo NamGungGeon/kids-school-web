@@ -6,6 +6,7 @@ import Compare from "./Compare";
 import Report from "./Report";
 import withBoundary from "../hoc/withErrorBoundary";
 import Info from "./Info";
+import School from "./School";
 
 const Routers = () => {
   return (
@@ -13,6 +14,7 @@ const Routers = () => {
       <Navigation />
       <Switch>
         <Route exact path={"/"} component={Home} />
+        <Route exact path={"/schools/:kinderCode"} component={School} />
         <Route exact path={"/compare"} component={Compare} />
         <Route exact path={"/report"} component={Report} />
         <Route exact path={"/info"} component={Info} />
