@@ -9,6 +9,8 @@ import TextField from "@material-ui/core/TextField";
 import { useAddress } from "../../hook/useAddress";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import styles from "./SearchFilter.module.css";
+import classNames from "classnames";
+import Loading from "../../components/Loading/Loading";
 
 const useStyles = makeStyles(theme => ({
   wrapper: {
@@ -62,7 +64,7 @@ const SearchFilter = ({ onUpdate = options => {} }) => {
   }, [sidoName, sggName, times, kinderType, kinderName, additionals]);
   const classes = useStyles();
 
-  if (!isAddressLoaded) return <CircularProgress />;
+  if (!isAddressLoaded) return <Loading />;
   return (
     <div className={styles.wrapper}>
       <div className={styles.row}>
@@ -177,7 +179,7 @@ const SearchFilter = ({ onUpdate = options => {} }) => {
         <p className={styles.label}>특이사항</p>
         <div className={styles.form}>
           <Chip
-            className={classes.chip}
+            className={classNames(classes.chip, styles.chip)}
             color={additionals.requireHandicap ? "primary" : "default"}
             label={"특수학급반 운영"}
             onClick={() => {
@@ -188,7 +190,7 @@ const SearchFilter = ({ onUpdate = options => {} }) => {
             }}
           />
           <Chip
-            className={classes.chip}
+            className={classNames(classes.chip, styles.chip)}
             color={additionals.requireBus ? "primary" : "default"}
             label={"스쿨버스 운영"}
             onClick={() => {
@@ -199,7 +201,7 @@ const SearchFilter = ({ onUpdate = options => {} }) => {
             }}
           />
           <Chip
-            className={classes.chip}
+            className={classNames(classes.chip, styles.chip)}
             color={additionals.requireCCTV ? "primary" : "default"}
             label={"CCTV 운영"}
             onClick={() => {

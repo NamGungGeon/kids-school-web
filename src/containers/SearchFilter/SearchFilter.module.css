@@ -15,8 +15,11 @@
   flex: 1;
 }
 .row > .form > * {
-  max-width: 200px;
+  max-width: 256px;
   width: 100%;
+}
+.row > .form > .chip {
+  max-width: 128px;
 }
 
 @media (max-width: 600px) {
