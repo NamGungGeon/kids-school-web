@@ -38,8 +38,9 @@
   padding: 16px;
   width: 100%;
   z-index: 10;
-  box-shadow: 0 -4px 4px #aaaaaa;
+  box-shadow: 0 -2px 2px #aaaaaa;
   background: white;
+  margin-bottom: 64px;
 }
 table {
   min-width: 512px;
