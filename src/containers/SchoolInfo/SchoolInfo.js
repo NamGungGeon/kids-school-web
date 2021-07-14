@@ -65,7 +65,6 @@ const SchoolInfo = ({ kinderCode, school = null }) => {
   const isInCompares = () => {
     return compares.indexOf(info?.kinderCode) !== -1;
   };
-  const [supportShare] = useState(navigator.share);
   useEffect(() => {
     if (!info) {
       getSchoolInfo(kinderCode)
@@ -155,11 +154,11 @@ const SchoolInfo = ({ kinderCode, school = null }) => {
         <Tooltip title={"공유하기"}>
           <IconButton
             onClick={() => {
-              if (supportShare) {
+              if (navigator.share) {
                 // url: 공유될 URL을 나타내는 USVString.
                 // text: 공유될 본문을 나타내는 USVString.
                 // title: 공유될 제목을 나타내는 USVString.
-                supportShare({
+                navigator.share({
                   url: window.location.href,
                   title: `키즈스쿨: ${info.kinderName}`
                 });
