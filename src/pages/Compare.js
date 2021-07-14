@@ -27,7 +27,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const Compare = ({ location }) => {
+const Compare = ({ location, history }) => {
   const classes = useStyles();
   const [_, setModal] = useModal();
   const [__, addToast] = useToasts();
@@ -64,7 +64,14 @@ const Compare = ({ location }) => {
   return (
     <div className={"content"}>
       <h1>유치원 비교</h1>
-      <ComparableList onUpdateCompares={setCompares} initCompares={compares} />
+      <ComparableList
+        onUpdateCompares={compares => {
+          history.replace(
+            `/compare?presets=${compares.map(c => c.kinderCode).join(",")}`
+          );
+        }}
+        initCompares={compares}
+      />
       <br />
       {compares.length > colors.length && (
         <Typography>
