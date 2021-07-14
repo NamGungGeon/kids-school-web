@@ -34,6 +34,9 @@ const Compare = ({ location, history }) => {
   const [compares, setCompares] = useState([]);
   const [device] = useDeviceType();
   const [clipboard, setClipboard] = useState();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const execCopy = () => {
     if (!document.queryCommandSupported("copy")) {

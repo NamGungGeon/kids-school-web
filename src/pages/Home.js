@@ -49,6 +49,9 @@ const Home = () => {
     return results;
   };
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+  useEffect(() => {
     const { sidoName, sggName } = filter;
     setSchools(null);
     console.log("filter updated", filter);

@@ -10,6 +10,9 @@ const Report = ({ history }) => {
   const [report, setReport] = useState({});
   const [_, addToast] = useToasts();
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+  useEffect(() => {
     const unblock = history.block(
       "문의 작성 중 입니다. 페이지를 벗어나시겠습니까?"
     );

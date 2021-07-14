@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Typography } from "@material-ui/core";
 
 const Info = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <div className={"content"}>
       <h1>정보</h1>
