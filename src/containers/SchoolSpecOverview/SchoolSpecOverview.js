@@ -74,6 +74,7 @@ const SchoolSpecOverview = ({ school, size = "small", color }) => {
         icon={<SportsIcon />}
         color={school.groundSize ? "primary" : "basic"}
         size={size}
+        className={classes.chip}
         style={getStyle(school.groundSize)}
         label={`운동장 ${school.groundSize ? `있음` : "없음"}`}
       />
@@ -81,8 +82,8 @@ const SchoolSpecOverview = ({ school, size = "small", color }) => {
         icon={<StarIcon />}
         color={school.classCountHandicap ? "primary" : "basic"}
         size={size}
-        style={getStyle(school.classCountHandicap)}
         className={classes.chip}
+        style={getStyle(school.classCountHandicap)}
         label={`특수학급 ${school.classCountHandicap ? `있음` : "없음"}`}
       />
     </div>
