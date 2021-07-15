@@ -13,6 +13,9 @@ class ErrorBoundary extends React.Component {
   }
 
   componentDidCatch(error, errorInfo) {
+    if (localStorage.getItem("trackable") === "disallow") return;
+    if (window.location.href.includes("localhost")) return;
+
     // 에러 리포팅 서비스에 에러를 기록할 수도 있습니다.
     console.error(error);
     const version = process.env.REACT_APP_VERSION;
@@ -21,8 +24,6 @@ class ErrorBoundary extends React.Component {
     } (v ${version})\n${error.toString()}\n${error.message}`;
     const { componentStack } = errorInfo;
     console.error("ERROR", summary, componentStack);
-
-    if (window.location.href.includes("localhost")) return;
 
     createLog(summary, componentStack).catch(e => {
       console.error(e);
