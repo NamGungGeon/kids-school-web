@@ -56,40 +56,42 @@ const Report = ({ history }) => {
     <div className={"content"}>
       {deviceType !== "phone" && <h1>문의</h1>}
       <br />
-      <h3>답장 받을 이메일</h3>
-      <FormControl className={styles.form} fullWidth>
-        <TextField
-          name={"email"}
-          type={"email"}
-          label="example@exam.com"
-          onChange={handleChange}
-        />
-      </FormControl>
-      <h3>제목</h3>
-      <FormControl className={styles.form} fullWidth>
-        <TextField
-          name={"title"}
-          type={"text"}
-          label="문의제목"
-          onChange={handleChange}
-        />
-      </FormControl>
-      <h3>내용</h3>
-      <FormControl className={styles.form} fullWidth>
-        <TextField
-          multiline
-          name={"content"}
-          type={"textarea"}
-          label="문의내용"
-          onChange={handleChange}
-          rows={10}
-        />
-      </FormControl>
-      <br />
-      <br />
-      <Button variant={"contained"} color={"primary"} onClick={submit}>
-        접수
-      </Button>
+      <Paper className={"padding"}>
+        <h3>답장 받을 이메일</h3>
+        <FormControl className={styles.form} fullWidth>
+          <TextField
+            name={"email"}
+            type={"email"}
+            label="example@exam.com"
+            onChange={handleChange}
+          />
+        </FormControl>
+        <h3>제목</h3>
+        <FormControl className={styles.form} fullWidth>
+          <TextField
+            name={"title"}
+            type={"text"}
+            label="문의제목"
+            onChange={handleChange}
+          />
+        </FormControl>
+        <h3>내용</h3>
+        <FormControl className={styles.form} fullWidth>
+          <TextField
+            multiline
+            name={"content"}
+            type={"textarea"}
+            label="문의내용"
+            onChange={handleChange}
+            rows={10}
+          />
+        </FormControl>
+        <br />
+        <br />
+        <Button variant={"contained"} color={"primary"} onClick={submit}>
+          접수
+        </Button>
+      </Paper>
     </div>
   );
 };

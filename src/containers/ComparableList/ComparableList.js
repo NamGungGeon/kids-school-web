@@ -21,6 +21,7 @@ import Tooltip from "@material-ui/core/Tooltip";
 import IconButton from "@material-ui/core/IconButton";
 import { Button, useTheme } from "@material-ui/core";
 import { useModal } from "../../hook/useModal";
+import DoneIcon from "@material-ui/icons/Done";
 
 const RemoveDialog = observer(({ school, onClose }) => {
   const [_, __, removeCompare] = useCompares();
@@ -99,12 +100,12 @@ const ComparableList = ({
     >
       <AccordionSummary expandIcon={<ExpandMoreIcon />}>
         <Typography>
-          <b>비교 유치원 선택</b>
+          <h3>비교할 유치원 선택</h3>
         </Typography>
       </AccordionSummary>
       <AccordionDetails>
         <div style={{ width: "100%" }}>
-          <List>
+          <List dense={type === "phone"}>
             {schools.map((school, idx) => {
               return (
                 <ListItem
@@ -131,7 +132,7 @@ const ComparableList = ({
                   )}
                   <ListItemText
                     primary={
-                      <b
+                      <span
                         style={
                           type === "phone" && compares.indexOf(school) !== -1
                             ? { color: palette.primary.main }
@@ -139,11 +140,9 @@ const ComparableList = ({
                         }
                       >
                         {type === "phone" &&
-                          compares.indexOf(school) !== -1 && (
-                            <span>(선택됨)</span>
-                          )}
+                          compares.indexOf(school) !== -1 && <DoneIcon />}
                         {school.kinderName}
-                      </b>
+                      </span>
                     }
                     secondary={school.address}
                   />

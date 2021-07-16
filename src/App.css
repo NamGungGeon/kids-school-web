@@ -56,7 +56,13 @@ table th {
   .grid {
     display: block;
   }
-  .content {
+  .padding {
     padding: 8px;
+  }
+  .content {
+    padding: 8px 0;
+  }
+  html {
+    font-size: 14px;
   }
 }

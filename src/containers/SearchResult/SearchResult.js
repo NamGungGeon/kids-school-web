@@ -37,6 +37,7 @@ const SearchResult = ({ schools, handleSelect }) => {
   return (
     <div>
       <List
+        dense={type === "phone"}
         style={
           type === "desktop"
             ? {
