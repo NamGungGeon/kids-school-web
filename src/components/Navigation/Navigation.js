@@ -5,7 +5,7 @@ import { IconButton, useTheme } from "@material-ui/core";
 import logo from "../../resources/logo.png";
 import classNames from "classnames";
 import SearchIcon from "@material-ui/icons/Search";
-import CompareIcon from "@material-ui/icons/Compare";
+import StarIcon from "@material-ui/icons/Star";
 import ChatBubbleIcon from "@material-ui/icons/ChatBubble";
 import InfoIcon from "@material-ui/icons/Info";
 
@@ -65,7 +65,7 @@ const Navigation = () => {
         <li>
           <NavLink to={"/compare"} activeClassName={styles.active}>
             <IconButton>
-              <CompareIcon />
+              <StarIcon />
             </IconButton>
           </NavLink>
         </li>
