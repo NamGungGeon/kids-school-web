@@ -13,6 +13,12 @@ const Info = () => {
   return (
     <div className={"content"}>
       <h1>정보</h1>
+      <h2>서비스 개요</h2>
+      <Typography>
+        <a href="https://satisfactoryplace.tistory.com/253">
+          https://satisfactoryplace.tistory.com/253
+        </a>
+      </Typography>
       <h2>데이터 출처</h2>
       <Typography>
         데이터는{" "}
@@ -32,6 +38,14 @@ const Info = () => {
         문의해보셔야 합니다.
         <br />
         이로 인해 발생하는 피해에 대해서는 사이트 제공자가 책임지지 않습니다
+      </Typography>
+      <h2>소유권</h2>
+      <Typography>
+        앱 '키즈스쿨 (kr.kidsschool)'의 소유자와 이 웹사이트의 소유자가
+        동일하다는 것을 증명합니다.
+        <br />
+        This text evidences that same person(owner) has copyright about
+        app(kr.kidsschool) and this site.
       </Typography>
       <h2>문의</h2>
       <Typography>
