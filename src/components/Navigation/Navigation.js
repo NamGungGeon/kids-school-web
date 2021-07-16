@@ -31,7 +31,7 @@ const Navigation = () => {
       <nav
         className={styles.topNav}
         style={{
-          background: palette.primary.dark
+          background: deviceType === "phone" ? "white" : palette.primary.dark
         }}
       >
         {deviceType !== "phone" && (
@@ -39,7 +39,9 @@ const Navigation = () => {
             <img src={logo} alt={"logo"} className={styles.logo} />
           </Link>
         )}
-        {deviceType === "phone" && <h3 style={{ margin: 0 }}>{title}</h3>}
+        {deviceType === "phone" && (
+          <h3 style={{ margin: 0, color: "black" }}>{title}</h3>
+        )}
       </nav>
       <ul
         style={{

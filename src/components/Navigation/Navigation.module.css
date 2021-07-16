@@ -65,7 +65,10 @@ ul.nav.bottom > li a.active * {
 }
 @media (max-width: 800px) {
   nav.topNav {
-    box-shadow: 0 2px 4px #666666;
+    box-shadow: 0 2px 2px #666666;
+    position: sticky;
+    top: 0;
+    z-index: 100;
   }
   nav.topNav + ul {
     display: none;
