@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { observable } from "mobx";
 
 const defaultDescriptor = {
   title: "키즈스쿨",
@@ -28,16 +29,36 @@ const setMetaTags = ({
     .querySelector('meta[property="og:url"]')
     .setAttribute("content", window.location.href);
 };
+export const getMetaTags = () => {
+  return {
+    title: document.querySelector("title").text,
+    description: document
+      .querySelector('meta[property="og:title"]')
+      .getAttribute("content"),
+    imageUrl: document
+      .querySelector('meta[property="og:title"]')
+      .getAttribute("content")
+  };
+};
 
-export const usePageDescriptor = (descriptor = defaultDescriptor) => {
-  const [_descripor, setDescriptor] = useState(descriptor);
+const pageDescriptor = observable({
+  value: getMetaTags()
+});
+export const usePageDescriptor = newDescriptor => {
   useEffect(() => {
+    if (newDescriptor) pageDescriptor.value = newDescriptor;
     return () => {
-      setMetaTags(defaultDescriptor);
+      pageDescriptor.value = defaultDescriptor;
     };
   }, []);
   useEffect(() => {
-    setMetaTags(_descripor);
-  }, [_descripor]);
-  return [_descripor, setDescriptor];
+    console.log("onUpdated pageDescriptor.value");
+    setMetaTags(pageDescriptor.value);
+  }, [pageDescriptor.value]);
+  return [
+    pageDescriptor.value,
+    descriptor => {
+      pageDescriptor.value = descriptor;
+    }
+  ];
 };

@@ -75,7 +75,7 @@ const Compare = ({ location, history }) => {
   }, [location.search]);
   return (
     <div className={"content"}>
-      <h1>유치원 비교</h1>
+      {device !== "phone" && <h1>유치원 비교</h1>}
       <ComparableList
         onUpdateCompares={compares => {
           history.replace(

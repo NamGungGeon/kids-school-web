@@ -6,10 +6,13 @@ import { Button } from "@material-ui/core";
 import { useToasts } from "../hook/useToast";
 import { createReport } from "../http";
 import { usePageDescriptor } from "../hook/usePageDescriptor";
+import { useDeviceType } from "../hook/useDeviceSize";
+import Paper from "@material-ui/core/Paper";
 
 const Report = ({ history }) => {
   const [report, setReport] = useState({});
   const [_, addToast] = useToasts();
+  const [deviceType] = useDeviceType();
   usePageDescriptor({
     title: "키즈스쿨:: 문의",
     description: "키즈스쿨의 불편/건의사항 등을 제출할 수 있습니다"
@@ -51,7 +54,7 @@ const Report = ({ history }) => {
   };
   return (
     <div className={"content"}>
-      <h1>문의</h1>
+      {deviceType !== "phone" && <h1>문의</h1>}
       <br />
       <h3>답장 받을 이메일</h3>
       <FormControl className={styles.form} fullWidth>

@@ -1,8 +1,11 @@
 import React, { useEffect } from "react";
 import { Typography } from "@material-ui/core";
 import { usePageDescriptor } from "../hook/usePageDescriptor";
+import { useDeviceType } from "../hook/useDeviceSize";
+import Paper from "@material-ui/core/Paper";
 
 const Info = () => {
+  const [deviceType] = useDeviceType();
   usePageDescriptor({
     title: "키즈스쿨:: 정보",
     description: "키즈스쿨에 대한 정보를 제공합니다"
@@ -12,7 +15,7 @@ const Info = () => {
   }, []);
   return (
     <div className={"content"}>
-      <h1>정보</h1>
+      {deviceType !== "phone" && <h1>정보</h1>}
       <h2>서비스 개요</h2>
       <Typography>
         <a href="https://satisfactoryplace.tistory.com/253">

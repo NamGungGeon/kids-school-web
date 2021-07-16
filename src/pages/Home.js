@@ -10,12 +10,17 @@ import SearchResult from "../containers/SearchResult/SearchResult";
 import { getSchoolsByAddress, getSchoolsByName } from "../http";
 import Map from "../components/Map/Map";
 import { usePageDescriptor } from "../hook/usePageDescriptor";
+import { Link } from "react-router-dom";
+import logo from "../resources/logo.png";
+import styles from "../components/Navigation/Navigation.module.css";
+import { useDeviceType } from "../hook/useDeviceSize";
 
 const Home = () => {
   const [schools, setSchools] = useState([]);
   const [filter, setFilter] = useState({});
   const [expanded, setExpanded] = useState(true);
   const [selectedSchool, setSelectedSchool] = useState();
+  const [deviceType] = useDeviceType();
   usePageDescriptor({
     title: "키즈스쿨:: 유치원 찾기",
     description: "원하는 조건의 유치원을 손쉽게 찾고 비교할 수 있습니다"
@@ -80,7 +85,7 @@ const Home = () => {
   }, [schools]);
   return (
     <div className={"content"}>
-      <h1>유치원 찾기</h1>
+      {deviceType !== "phone" && <h1>유치원 찾기</h1>}
       <Accordion
         expanded={expanded}
         onChange={(_, expanded) => {
@@ -90,7 +95,7 @@ const Home = () => {
       >
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
           <Typography>
-            <b>검색 옵션 설정</b>
+            <h3>검색 옵션 설정</h3>
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
