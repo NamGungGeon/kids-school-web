@@ -1,7 +1,12 @@
 import React, { useEffect } from "react";
 import { Typography } from "@material-ui/core";
+import { usePageDescriptor } from "../hook/usePageDescriptor";
 
 const Info = () => {
+  usePageDescriptor({
+    title: "키즈스쿨:: 정보",
+    description: "키즈스쿨에 대한 정보를 제공합니다"
+  });
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);

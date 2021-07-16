@@ -18,6 +18,7 @@ import ShareIcon from "@material-ui/icons/Share";
 import { useToasts } from "../hook/useToast";
 import TextField from "@material-ui/core/TextField";
 import InputBase from "@material-ui/core/InputBase";
+import { usePageDescriptor } from "../hook/usePageDescriptor";
 
 const colors = ["#2196F3", "#D32F2F", "#9C27B0", "#651FFF", "#E91E63"];
 const useStyles = makeStyles(theme => ({
@@ -34,6 +35,10 @@ const Compare = ({ location, history }) => {
   const [compares, setCompares] = useState([]);
   const [device] = useDeviceType();
   const [clipboard, setClipboard] = useState();
+  usePageDescriptor({
+    title: "키즈스쿨:: 비교",
+    description: "유치원/어린이집을 비교합니다"
+  });
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);

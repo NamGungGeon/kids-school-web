@@ -9,12 +9,17 @@ import SearchFilter from "../containers/SearchFilter/SearchFilter";
 import SearchResult from "../containers/SearchResult/SearchResult";
 import { getSchoolsByAddress, getSchoolsByName } from "../http";
 import Map from "../components/Map/Map";
+import { usePageDescriptor } from "../hook/usePageDescriptor";
 
 const Home = () => {
   const [schools, setSchools] = useState([]);
   const [filter, setFilter] = useState({});
   const [expanded, setExpanded] = useState(true);
   const [selectedSchool, setSelectedSchool] = useState();
+  usePageDescriptor({
+    title: "키즈스쿨:: 유치원 찾기",
+    description: "원하는 조건의 유치원을 손쉽게 찾고 비교할 수 있습니다"
+  });
   const applyFilter = schools => {
     const getOnlyTime = time => {
       return parseInt(time.replace(/[^0-9]/gi, "").substring(0, 2));

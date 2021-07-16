@@ -5,10 +5,15 @@ import TextField from "@material-ui/core/TextField";
 import { Button } from "@material-ui/core";
 import { useToasts } from "../hook/useToast";
 import { createReport } from "../http";
+import { usePageDescriptor } from "../hook/usePageDescriptor";
 
 const Report = ({ history }) => {
   const [report, setReport] = useState({});
   const [_, addToast] = useToasts();
+  usePageDescriptor({
+    title: "키즈스쿨:: 문의",
+    description: "키즈스쿨의 불편/건의사항 등을 제출할 수 있습니다"
+  });
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
