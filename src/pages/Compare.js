@@ -56,7 +56,11 @@ const Compare = ({ location, history }) => {
 
     return false;
   };
-
+  useEffect(() => {
+    if (compares.length < 2) {
+      addToast(`2개 이상의 유치원/어린이집을 선택하면 비교가 시작됩니다`);
+    }
+  }, [compares]);
   useEffect(() => {
     const presets = queryString.parse(location.search).presets?.split(",");
     console.log("presets", presets);
