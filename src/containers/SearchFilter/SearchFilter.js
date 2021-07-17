@@ -11,6 +11,8 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import styles from "./SearchFilter.module.css";
 import classNames from "classnames";
 import Loading from "../../components/Loading/Loading";
+import { useToasts } from "../../hook/useToast";
+import { AddPhotoAlternateSharp } from "@material-ui/icons";
 
 const useStyles = makeStyles(theme => ({
   wrapper: {
@@ -46,6 +48,7 @@ const SearchFilter = ({ onUpdate = options => {} }) => {
   const [sggName, setSggName] = useState("송파구");
   const [kinderType, setKinderType] = useState();
   const [kinderName, setKinderName] = useState();
+  const [_, addToast] = useToasts();
   const [additionals, setAdditionals] = useState({
     requireHandicap: false,
     requireBus: false,
@@ -63,7 +66,6 @@ const SearchFilter = ({ onUpdate = options => {} }) => {
     onUpdate(filter);
   }, [sidoName, sggName, times, kinderType, kinderName, additionals]);
   const classes = useStyles();
-
   if (!isAddressLoaded) return <Loading />;
   return (
     <div className={styles.wrapper}>
@@ -183,6 +185,13 @@ const SearchFilter = ({ onUpdate = options => {} }) => {
             color={additionals.requireHandicap ? "primary" : "default"}
             label={"특수학급반 운영"}
             onClick={() => {
+              if (additionals.requireHandicap) {
+                addToast(
+                  "특수학급을 운영하지 않는 유치원/어린이집도 표시합니다"
+                );
+              } else {
+                addToast("특수학급을 운영하는 유치원/어린이집만 표시합니다");
+              }
               setAdditionals({
                 ...additionals,
                 requireHandicap: !additionals.requireHandicap
@@ -194,6 +203,13 @@ const SearchFilter = ({ onUpdate = options => {} }) => {
             color={additionals.requireBus ? "primary" : "default"}
             label={"스쿨버스 운영"}
             onClick={() => {
+              if (additionals.requireBus) {
+                addToast(
+                  "스쿨버스를 운영하지 않는 유치원/어린이집도 표시합니다"
+                );
+              } else {
+                addToast("스쿨버스를 운영하는 유치원/어린이집만 표시합니다");
+              }
               setAdditionals({
                 ...additionals,
                 requireBus: !additionals.requireBus
@@ -205,6 +221,11 @@ const SearchFilter = ({ onUpdate = options => {} }) => {
             color={additionals.requireCCTV ? "primary" : "default"}
             label={"CCTV 운영"}
             onClick={() => {
+              if (additionals.requireCCTV) {
+                addToast("CCTV를 운영하지 않는 유치원/어린이집도 표시합니다");
+              } else {
+                addToast("CCTV를 운영하는 유치원/어린이집만 표시합니다");
+              }
               setAdditionals({
                 ...additionals,
                 requireCCTV: !additionals.requireCCTV
