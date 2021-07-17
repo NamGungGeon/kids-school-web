@@ -7,7 +7,7 @@ import { hydrate, render } from "react-dom";
 
 const rootElement = document.getElementById("root");
 if (rootElement.hasChildNodes()) {
-  hydrate(
+  render(
     <React.StrictMode>
       <BrowserRouter>
         <App />
