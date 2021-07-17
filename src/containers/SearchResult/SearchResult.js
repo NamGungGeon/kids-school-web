@@ -73,10 +73,14 @@ const SearchResult = ({ schools, handleSelect }) => {
                     onClick={() => {
                       if (isInCompares(school.kinderCode)) {
                         removeCompare(school.kinderCode);
-                        addToast("비교함에서 제거되었습니다");
+                        addToast(
+                          `${school.kinderName}이(가) 비교함에서 제거되었습니다`
+                        );
                       } else {
                         addCompare(school.kinderCode);
-                        addToast("비교함에 추가되었습니다");
+                        addToast(
+                          `${school.kinderName}이(가) 비교함에 추가되었습니다`
+                        );
                       }
                     }}
                   >
