@@ -18,7 +18,7 @@ export const useDeviceSize = () => {
 };
 
 export const useDeviceType = () => {
-  const [width, height] = useDeviceSize(window.innerWidth);
+  const [width, height] = useDeviceSize();
   const [type, setType] = useState("desktop");
   useEffect(() => {
     if (width > 800) {
@@ -29,5 +29,8 @@ export const useDeviceType = () => {
       if (type !== "phone") setType("phone");
     }
   }, [width]);
+  useEffect(() => {
+    console.log("device type", type, width);
+  }, [type]);
   return [type];
 };
