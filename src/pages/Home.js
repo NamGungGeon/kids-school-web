@@ -10,14 +10,15 @@ import SearchResult from "../containers/SearchResult/SearchResult";
 import { getSchoolsByAddress, getSchoolsByName } from "../http";
 import Map from "../components/Map/Map";
 import { usePageDescriptor } from "../hook/usePageDescriptor";
-import { Link } from "react-router-dom";
-import logo from "../resources/logo.png";
-import styles from "../components/Navigation/Navigation.module.css";
 import { useDeviceType } from "../hook/useDeviceSize";
+import { usePrevState } from "../hook/usePrevState";
+import Loading from "../components/Loading/Loading";
 
 const Home = () => {
+  const [originSchools, setOriginSchools] = useState();
   const [schools, setSchools] = useState([]);
   const [filter, setFilter] = useState({});
+  const prevFilter = usePrevState(filter);
   const [expanded, setExpanded] = useState(true);
   const [selectedSchool, setSelectedSchool] = useState();
   const [deviceType] = useDeviceType();
@@ -30,6 +31,11 @@ const Home = () => {
       return parseInt(time.replace(/[^0-9]/gi, "").substring(0, 2));
     };
     let results = schools;
+    if (filter.kinderName) {
+      results = results.filter(school =>
+        school.kinderName.includes(filter.kinderName)
+      );
+    }
     if (filter.openTime) {
       results = results.filter(
         school =>
@@ -63,22 +69,30 @@ const Home = () => {
   }, []);
   useEffect(() => {
     const { sidoName, sggName } = filter;
-    setSchools(null);
-    console.log("filter updated", filter);
-    if (sidoName && sggName) {
-      getSchoolsByAddress(sidoName, sggName, filter)
-        .then(res => {
-          setSchools(applyFilter(res.data.schools));
-        })
-        .catch(console.error);
-    } else if (filter.kinderName?.length >= 3) {
-      getSchoolsByName(filter.kinderName)
-        .then(res => {
-          setSchools(applyFilter(res.data.schools));
-        })
-        .catch(console.error);
+    console.log("filter updated", prevFilter, filter);
+    if (prevFilter?.sidoName !== sidoName || prevFilter?.sggName !== sggName) {
+      setSchools(null);
+      if (sidoName && sggName) {
+        getSchoolsByAddress(sidoName, sggName, filter)
+          .then(res => {
+            setOriginSchools(res.data.schools);
+          })
+          .catch(console.error);
+      } else if (filter.kinderName?.length >= 3) {
+        getSchoolsByName(filter.kinderName)
+          .then(res => {
+            setOriginSchools(res.data.schools);
+          })
+          .catch(console.error);
+      }
     }
   }, [filter]);
+  useEffect(() => {
+    if (originSchools) {
+      setSchools(applyFilter(originSchools));
+      if (originSchools.length === 1) setSelectedSchool(originSchools[0]);
+    } else setSchools(null);
+  }, [originSchools, filter]);
   useEffect(() => {
     console.log("schools", schools);
     setSelectedSchool(null);
@@ -103,20 +117,17 @@ const Home = () => {
         </AccordionDetails>
       </Accordion>
       <br />
-      {filter.kinderName?.length >= 3 ||
-        (filter.sidoName && filter.sggName && (
-          <Paper className={"grid paddings"}>
-            <div>
-              <Map markers={schools} highlight={selectedSchool} />
-            </div>
-            <div>
-              <SearchResult
-                schools={schools}
-                handleSelect={setSelectedSchool}
-              />
-            </div>
-          </Paper>
-        ))}
+      {(filter.kinderName?.length >= 3 ||
+        (filter.sidoName && filter.sggName)) && (
+        <Paper className={"grid paddings"}>
+          <div>
+            <Map markers={schools} highlight={selectedSchool} />
+          </div>
+          <div>
+            <SearchResult schools={schools} handleSelect={setSelectedSchool} />
+          </div>
+        </Paper>
+      )}
     </div>
   );
 };
