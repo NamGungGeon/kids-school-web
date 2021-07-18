@@ -70,3 +70,18 @@ export const createLog = (summary, log) => {
     }
   });
 };
+
+//유치원
+export const getKinderViolations = kinderCode => {
+  return axios.request({
+    url: `/schools/violations/kinder/${kinderCode}`,
+    method: "GET"
+  });
+};
+//어린이집
+export const getChildrenViolations = () => {
+  return axios.request({
+    url: `/schools/violations/children/`,
+    method: "GET"
+  });
+};

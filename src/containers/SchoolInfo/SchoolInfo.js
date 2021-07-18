@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { getSchoolInfo } from "../../http";
+import {
+  getChildrenViolations,
+  getKinderViolations,
+  getSchoolInfo
+} from "../../http";
 import Loading from "../../components/Loading/Loading";
 import Map from "../../components/Map/Map";
 import { IconButton, Typography } from "@material-ui/core";
@@ -56,12 +60,15 @@ const execCopy = ref => {
 
   return false;
 };
+
+let childrenViolations = null;
 const SchoolInfo = ({ kinderCode, school = null }) => {
   const classes = useStyles();
   const [info, setInfo] = useState(school);
   const [_, addToast] = useToasts();
   const [compares, addCompare, removeCompare] = useCompares();
   const [inputRef, setInputRef] = useState();
+  const [violations, setViolations] = useState();
   const isInCompares = () => {
     return compares.indexOf(info?.kinderCode) !== -1;
   };
@@ -76,7 +83,44 @@ const SchoolInfo = ({ kinderCode, school = null }) => {
     }
   }, [kinderCode]);
   useEffect(() => {
+    if (violations) console.log("violations", violations);
+  }, [violations]);
+  useEffect(() => {
     console.log("info", info);
+    if (info?.kinderName) {
+      if (info.kinderName.includes("유치원")) {
+        getKinderViolations(kinderCode)
+          .then(res => {
+            const violations = res.data;
+            if (violations.length) setViolations(violations);
+          })
+          .catch(console.error);
+      } else if (info.kinderName.includes("어린이집")) {
+        const setter = () => {
+          if (childrenViolations) {
+            const violations = childrenViolations.filter(violation => {
+              return (
+                info.address.includes(violation.sidoName) &&
+                info.address.includes(violation.sggName) &&
+                info.kinderName === violation.kinderName
+              );
+            });
+            if (violations.length) setViolations(violations);
+          }
+        };
+        if (childrenViolations) {
+          setter();
+        } else {
+          getChildrenViolations()
+            .then(res => {
+              const violations = res.data;
+              childrenViolations = violations;
+              setter();
+            })
+            .catch(console.error);
+        }
+      }
+    }
   }, [info]);
 
   if (!info) return <Loading />;
@@ -361,6 +405,12 @@ const SchoolInfo = ({ kinderCode, school = null }) => {
               </Table>
             </TableContainer>
           </Paper>
+          {violations && (
+            <Paper className={classNames("padding", classes.paper)}>
+              <h3>위반내역</h3>
+              <Typography>위반내역이 {violations.length}개 있습니다</Typography>
+            </Paper>
+          )}
         </div>
       </div>
     </div>
