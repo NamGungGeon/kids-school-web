@@ -78,7 +78,6 @@ export const getKinderViolations = kinderCode => {
     method: "GET"
   });
 };
-//어린이집
 export const getChildrenViolations = () => {
   return axios.request({
     url: `/schools/violations/children/`,

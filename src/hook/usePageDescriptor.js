@@ -3,7 +3,7 @@ import { observable } from "mobx";
 
 const defaultDescriptor = {
   title: "키즈스쿨",
-  description: "유치원/어린이집 검색과 비교를 한번에!",
+  description: "유치원 검색과 비교를 한번에!",
   imageUrl: "/logo.png"
 };
 const setMetaTags = ({

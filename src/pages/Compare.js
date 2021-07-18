@@ -37,7 +37,7 @@ const Compare = ({ location, history }) => {
   const [clipboard, setClipboard] = useState();
   usePageDescriptor({
     title: "키즈스쿨:: 비교",
-    description: "유치원/어린이집을 비교합니다"
+    description: "유치원을 비교합니다"
   });
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -58,7 +58,7 @@ const Compare = ({ location, history }) => {
   };
   useEffect(() => {
     if (compares.length < 2) {
-      addToast(`2개 이상의 유치원/어린이집을 선택하면 비교가 시작됩니다`);
+      addToast(`2개 이상의 유치원을 선택하면 비교가 시작됩니다`);
     }
   }, [compares]);
   useEffect(() => {

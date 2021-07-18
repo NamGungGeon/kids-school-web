@@ -74,7 +74,7 @@ const SearchFilter = ({ onUpdate = options => {} }) => {
         <FormControl className={styles.form}>
           <TextField
             value={kinderName}
-            label="검색할 유치원/어린이집의 이름"
+            label="검색할 유치원의 이름"
             onChange={e => {
               setKinderName(e.target.value);
             }}
@@ -186,11 +186,9 @@ const SearchFilter = ({ onUpdate = options => {} }) => {
             label={"특수학급반 운영"}
             onClick={() => {
               if (additionals.requireHandicap) {
-                addToast(
-                  "특수학급을 운영하지 않는 유치원/어린이집도 표시합니다"
-                );
+                addToast("특수학급을 운영하지 않는 유치원도 표시합니다");
               } else {
-                addToast("특수학급을 운영하는 유치원/어린이집만 표시합니다");
+                addToast("특수학급을 운영하는 유치원만 표시합니다");
               }
               setAdditionals({
                 ...additionals,
@@ -204,11 +202,9 @@ const SearchFilter = ({ onUpdate = options => {} }) => {
             label={"스쿨버스 운영"}
             onClick={() => {
               if (additionals.requireBus) {
-                addToast(
-                  "스쿨버스를 운영하지 않는 유치원/어린이집도 표시합니다"
-                );
+                addToast("스쿨버스를 운영하지 않는 유치원도 표시합니다");
               } else {
-                addToast("스쿨버스를 운영하는 유치원/어린이집만 표시합니다");
+                addToast("스쿨버스를 운영하는 유치원만 표시합니다");
               }
               setAdditionals({
                 ...additionals,
@@ -222,9 +218,9 @@ const SearchFilter = ({ onUpdate = options => {} }) => {
             label={"CCTV 운영"}
             onClick={() => {
               if (additionals.requireCCTV) {
-                addToast("CCTV를 운영하지 않는 유치원/어린이집도 표시합니다");
+                addToast("CCTV를 운영하지 않는 유치원도 표시합니다");
               } else {
-                addToast("CCTV를 운영하는 유치원/어린이집만 표시합니다");
+                addToast("CCTV를 운영하는 유치원만 표시합니다");
               }
               setAdditionals({
                 ...additionals,

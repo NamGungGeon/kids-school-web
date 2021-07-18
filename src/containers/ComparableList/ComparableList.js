@@ -54,9 +54,7 @@ const ComparableList = ({
   onUpdateCompares = compares => {},
   initCompares = [],
   onEmptyComparables = (
-    <Typography>
-      2개 이상의 유치원/어린이집이 비교함에 담겨 있어야 합니다
-    </Typography>
+    <Typography>2개 이상의 유치원이 비교함에 담겨 있어야 합니다</Typography>
   )
 }) => {
   const [schools, setSchools] = useState();
