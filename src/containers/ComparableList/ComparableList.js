@@ -37,7 +37,7 @@ const RemoveDialog = observer(({ school, onClose }) => {
         <Button
           color={"secondary"}
           size={"small"}
-          onClick={e => {
+          onClick={(e) => {
             removeCompare(school.kinderCode);
             onClose();
           }}
@@ -51,11 +51,15 @@ const RemoveDialog = observer(({ school, onClose }) => {
   );
 });
 const ComparableList = ({
-  onUpdateCompares = compares => {},
+  onUpdateCompares = (compares) => {},
   initCompares = [],
   onEmptyComparables = (
-    <Typography>2개 이상의 유치원이 비교함에 담겨 있어야 합니다</Typography>
-  )
+    <p>
+      아직 비교함이 비어 있습니다
+      <br />
+      유치원 찾기를 통해 비교함에 유치원을 추가해보세요
+    </p>
+  ),
 }) => {
   const [schools, setSchools] = useState();
   const [comparables] = useCompares();
@@ -70,19 +74,19 @@ const ComparableList = ({
     onUpdateCompares(compares);
   }, [compares]);
   useEffect(() => {
-    if (comparables.length >= 2)
+    if (comparables.length)
       getSchoolsByCodes(comparables)
-        .then(res => {
+        .then((res) => {
           const { schools } = res.data;
           setSchools(schools);
         })
         .catch(console.error);
   }, [comparables]);
 
-  if (comparables.length < 2) {
+  if (!comparables.length) {
     return onEmptyComparables;
   }
-  if (comparables.length >= 2 && !schools) {
+  if (!schools) {
     return <Loading />;
   }
   return (
@@ -98,7 +102,7 @@ const ComparableList = ({
     >
       <AccordionSummary expandIcon={<ExpandMoreIcon />}>
         <Typography>
-          <h3>비교할 유치원 선택</h3>
+          <h3>비교할 유치원</h3>
         </Typography>
       </AccordionSummary>
       <AccordionDetails>
@@ -114,12 +118,12 @@ const ComparableList = ({
                   }
                   key={`comparable-${school.kinderCode}`}
                   button
-                  onClick={e => {
+                  onClick={(e) => {
                     const target = compares.indexOf(school);
                     if (target === -1) {
                       setCompares([...compares, school]);
                     } else {
-                      setCompares([...compares].filter(c => c !== school));
+                      setCompares([...compares].filter((c) => c !== school));
                     }
                   }}
                 >
@@ -148,14 +152,14 @@ const ComparableList = ({
                     {type !== "phone" && (
                       <Checkbox
                         checked={compares.indexOf(school) !== -1}
-                        onClick={e => {
+                        onClick={(e) => {
                           e.stopPropagation();
                           const target = compares.indexOf(school);
                           if (target === -1) {
                             setCompares([...compares, school]);
                           } else {
                             setCompares(
-                              [...compares].filter(c => c !== school)
+                              [...compares].filter((c) => c !== school)
                             );
                           }
                         }}

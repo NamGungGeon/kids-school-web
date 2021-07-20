@@ -19,6 +19,7 @@ import { useToasts } from "../hook/useToast";
 import TextField from "@material-ui/core/TextField";
 import InputBase from "@material-ui/core/InputBase";
 import { usePageDescriptor } from "../hook/usePageDescriptor";
+import {useCompares} from "../hook/useCompares";
 
 const colors = ["#2196F3", "#D32F2F", "#9C27B0", "#651FFF", "#E91E63"];
 const useStyles = makeStyles(theme => ({
@@ -33,6 +34,7 @@ const Compare = ({ location, history }) => {
   const [_, setModal] = useModal();
   const [__, addToast] = useToasts();
   const [compares, setCompares] = useState([]);
+  const [comparables] = useCompares();
   const [device] = useDeviceType();
   const [clipboard, setClipboard] = useState();
   usePageDescriptor({
@@ -73,6 +75,15 @@ const Compare = ({ location, history }) => {
         .catch(console.error);
     }
   }, [location.search]);
+  useEffect(()=>{
+    const query = queryString.parse(location.search);
+    if(comparables.length=== 0 && !query.preview){
+      //test mode on
+      history.replace('/compare?presets=009c017d-43bd-4d9f-ac64-d217abdd570e,1ecec08c-ed94-b044-e053-0a32095ab044,04a021da-cdd7-4e7e-a434-2b388c2f6b63&preview=true')
+    }
+  }, [comparables, location.search])
+
+  const previewMode = queryString.parse(location.search).preview;
   return (
     <div className={"content"}>
       {device !== "phone" && <h1>유치원 비교</h1>}
@@ -92,8 +103,14 @@ const Compare = ({ location, history }) => {
           (현재 {compares.length}개 선택됨)
         </Typography>
       )}
+
       {compares.length >= 2 && compares.length <= colors.length && (
         <Paper className={"padding"}>
+          {
+            previewMode && <Alert severity={'success'}>
+              비교함에 유치원을 추가한 후 아래와 같이 비교할 수 있습니다
+            </Alert>
+          }
           <Alert severity="warning">
             해당 정보는 정보공시일 기준으로 제공되며, 현재와는 다른 내용이 있을
             수 있습니다
@@ -155,6 +172,7 @@ const Compare = ({ location, history }) => {
               );
             })}
           </div>
+          <br/>
           <CompareSchools schools={compares} />
         </Paper>
       )}
