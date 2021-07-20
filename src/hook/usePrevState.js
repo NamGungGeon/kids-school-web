@@ -1,10 +1,11 @@
-const { useEffect } = require("react");
-const { useRef } = require("react");
+import { useEffect, useRef, React, useState } from "react";
 
-export function usePrevState(value) {
-  const ref = useRef();
+export function usePrevState(state) {
+  const ref = useRef(state);
+  console.log("ref install", ref.current);
   useEffect(() => {
-    ref.current = value;
-  });
+    console.log("ref", ref.current, state);
+    ref.current = state;
+  }, [state]);
   return ref.current;
 }

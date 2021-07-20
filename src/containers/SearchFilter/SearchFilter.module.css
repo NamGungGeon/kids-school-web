@@ -11,6 +11,7 @@
   font-weight: bold;
 }
 .row > .form {
+  display: flex;
   width: 100%;
   flex: 1;
 }
@@ -33,6 +34,7 @@
   }
   .row > .form {
     width: 100%;
+    display: block;
   }
   .row > .form > * {
     max-width: 9999px;

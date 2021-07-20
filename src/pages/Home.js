@@ -7,7 +7,7 @@ import Typography from "@material-ui/core/Typography";
 import AccordionDetails from "@material-ui/core/AccordionDetails";
 import SearchFilter from "../containers/SearchFilter/SearchFilter";
 import SearchResult from "../containers/SearchResult/SearchResult";
-import { getSchoolsByAddress, getSchoolsByName } from "../http";
+import { getNearSchools, getSchoolsByAddress, getSchoolsByName } from "../http";
 import Map from "../components/Map/Map";
 import { usePageDescriptor } from "../hook/usePageDescriptor";
 import { useDeviceType } from "../hook/useDeviceSize";
@@ -24,43 +24,43 @@ const Home = () => {
   const [deviceType] = useDeviceType();
   usePageDescriptor({
     title: "키즈스쿨:: 유치원 찾기",
-    description: "원하는 조건의 유치원을 손쉽게 찾고 비교할 수 있습니다"
+    description: "원하는 조건의 유치원을 손쉽게 찾고 비교할 수 있습니다",
   });
-  const applyFilter = schools => {
-    const getOnlyTime = time => {
+  const applyFilter = (schools) => {
+    const getOnlyTime = (time) => {
       return parseInt(time.replace(/[^0-9]/gi, "").substring(0, 2));
     };
     let results = schools;
     if (filter.kinderName) {
-      results = results.filter(school =>
+      results = results.filter((school) =>
         school.kinderName.includes(filter.kinderName)
       );
     }
     if (filter.openTime) {
       results = results.filter(
-        school =>
+        (school) =>
           school.openTime && filter.openTime >= getOnlyTime(school.openTime)
       );
     }
     if (filter.closeTime) {
       results = results.filter(
-        school =>
+        (school) =>
           school.closeTime && filter.closeTime <= getOnlyTime(school.closeTime)
       );
     }
     if (filter.kinderType) {
-      results = results.filter(school =>
+      results = results.filter((school) =>
         school.kinderType?.includes(filter.kinderType)
       );
     }
     if (filter.requireHandicap) {
-      results = results.filter(school => school.classCountHandicap);
+      results = results.filter((school) => school.classCountHandicap);
     }
     if (filter.requireBus) {
-      results = results.filter(school => school.busCount);
+      results = results.filter((school) => school.busCount);
     }
     if (filter.requireCCTV) {
-      results = results.filter(school => school.cctvCount);
+      results = results.filter((school) => school.cctvCount);
     }
     return results;
   };
@@ -68,19 +68,30 @@ const Home = () => {
     window.scrollTo(0, 0);
   }, []);
   useEffect(() => {
-    const { sidoName, sggName } = filter;
+    const { sidoName, sggName, lat, lng } = filter;
     console.log("filter updated", prevFilter, filter);
-    if (prevFilter?.sidoName !== sidoName || prevFilter?.sggName !== sggName) {
+    if (
+      prevFilter?.sidoName !== sidoName ||
+      prevFilter?.sggName !== sggName ||
+      prevFilter?.lat !== lat ||
+      prevFilter?.lng !== lng
+    ) {
       setSchools(null);
-      if (sidoName && sggName) {
+      if (lat && lng) {
+        getNearSchools(lat, lng)
+          .then((res) => {
+            setOriginSchools(res.data.schools);
+          })
+          .catch(console.error);
+      } else if (sidoName && sggName) {
         getSchoolsByAddress(sidoName, sggName, filter)
-          .then(res => {
+          .then((res) => {
             setOriginSchools(res.data.schools);
           })
           .catch(console.error);
       } else if (filter.kinderName?.length >= 3) {
         getSchoolsByName(filter.kinderName)
-          .then(res => {
+          .then((res) => {
             setOriginSchools(res.data.schools);
           })
           .catch(console.error);
@@ -113,7 +124,7 @@ const Home = () => {
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <SearchFilter onUpdate={filter => setFilter(filter)} />
+          <SearchFilter onUpdate={(filter) => setFilter(filter)} />
         </AccordionDetails>
       </Accordion>
       <br />
